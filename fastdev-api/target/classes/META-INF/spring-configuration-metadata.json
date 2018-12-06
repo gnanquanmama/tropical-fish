@@ -1,0 +1,12 @@
+{
+  "hints": [],
+  "groups": [
+    {
+      "sourceType": "com.fastdev.config.MybatisPlusConfig",
+      "name": "spring.datasource.druid.one",
+      "sourceMethod": "dataSourceOne()",
+      "type": "javax.sql.DataSource"
+    }
+  ],
+  "properties": []
+}
