@@ -4,15 +4,15 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.fish</groupId>
-    <artifactId>fastdev</artifactId>
+    <groupId>com.mcoding</groupId>
+    <artifactId>tropical_fish</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
     <modules>
-        <module>fastdev-common</module>
-        <module>fastdev-export</module>
-        <module>fastdev-parent</module>
-        <module>fastdev-api</module>
+        <module>fish-common</module>
+        <module>fish-export</module>
+        <module>fish-parent</module>
+        <module>fish-api</module>
     </modules>
 
 </project>
