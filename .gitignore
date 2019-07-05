@@ -1,0 +1,14 @@
+.idea/
+/fish.iml
+
+/fish-api/target
+/fish-api/fish-api.iml
+
+/fish-common/target
+/fish-common/fish-common.iml
+
+/fish-export/target
+/fish-export/fish-export.iml
+
+/fish-parent/target
+/fish-parent/fish-parent.iml
