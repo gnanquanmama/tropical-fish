@@ -1,3 +1,4 @@
-# java_web_staging
+# java接口服务脚手架
 
-java web开发后端脚手架，基于springboot,mybatis-plus
+基于springboot,ORM采用mybatis-plus，缓存使用Redis
+基于mybatis-plus自定义查询语法，可减轻后端开发服务，提高效率

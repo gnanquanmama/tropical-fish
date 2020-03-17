@@ -1,14 +1,37 @@
-.idea/
-/tropical_fish.iml
+# Compiled class file
+*.class
+*.iml
+*.idea
+target/
+logs/
 
-/fish-api/target
-/fish-api/fish-api.iml
+# Log file
+*.log
 
-/fish-common/target
-/fish-common/fish-common.iml
+# BlueJ files
+*.ctxt
 
-/fish-export/target
-/fish-export/fish-export.iml
 
-/fish-parent/target
-/fish-parent/fish-parent.iml
+# Package Files #
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
+
+*velocity.log*
+
+# Eclipse #
+.classpath
+.project
+.settings/
+
+.DS_Store
+
+_dockerCerts/
+
+.factorypath
