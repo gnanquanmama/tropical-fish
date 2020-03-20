@@ -15,12 +15,20 @@ import com.mcoding.modular.generatecode.entity.BaseGenerateCode;
 public interface BaseGenerateCodeService extends IService<BaseGenerateCode> {
 
     /**
-     * 获取编码
+     * 生成编码
      *
      * @param targetCode
      * @return
      */
     String generateNextCode(String targetCode);
+
+
+    /**
+     * 获取当前编码
+     * @param targetCode
+     * @return
+     */
+    String currentCode(String targetCode);
 
 }
 
