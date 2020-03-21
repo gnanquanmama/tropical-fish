@@ -1,4 +1,4 @@
-package com.mcoding.base.interceptor;
+package com.mcoding.base.auth;
 
 import com.alibaba.fastjson.JSON;
 import com.mcoding.common.util.ResponseResult;

@@ -1,4 +1,4 @@
-package com.mcoding.config;
+package com.mcoding.base.http;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,7 +13,7 @@ import org.springframework.web.client.RestTemplate;
  * @version 1.0
  */
 @Configuration
-public class ComponentConfig {
+public class RestTemplateConfig {
 
     @Bean
     public RestTemplate restTemplate(ClientHttpRequestFactory factory) {

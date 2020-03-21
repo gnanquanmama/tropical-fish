@@ -1,6 +1,5 @@
-package com.mcoding.config;
+package com.mcoding.base.auth;
 
-import com.mcoding.base.interceptor.AuthInterceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;

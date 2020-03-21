@@ -25,10 +25,10 @@ public class SwaggerConfig {
     }
 
     private ApiInfo apiInfo() {
-        Contact contact = new Contact("大套餐API", "http://www.liby.com/", "big-package-activity@liby.com");
+        Contact contact = new Contact("FISH-API", "http://www.fish.com/", "fish@fish.com");
         return new ApiInfoBuilder()
-                .title("大套餐API")
-                .description("大套餐API")
+                .title("FISH-API")
+                .description("FISH-API")
                 .contact(contact)
                 .version("1.0.0")
                 .build();
