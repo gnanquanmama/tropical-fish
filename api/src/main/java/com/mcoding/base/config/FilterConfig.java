@@ -1,7 +1,8 @@
 package com.mcoding.base.config;
 
-import com.mcoding.base.filter.InitGlobalRequestInfoFiler;
-import com.mcoding.base.filter.RateLimitFilter;
+import com.mcoding.base.doc.filter.MethodInvokeTreeFiler;
+import com.mcoding.base.log.TraceRequestFiler;
+import com.mcoding.base.rate.RateLimitFilter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,8 +23,15 @@ public class FilterConfig {
 
     @Bean
     public FilterRegistrationBean initBaseDataFilter() {
-        FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean<>(new InitGlobalRequestInfoFiler());
+        FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean<>(new TraceRequestFiler());
         filterRegistrationBean.setOrder(2);
+        return filterRegistrationBean;
+    }
+
+    @Bean
+    public FilterRegistrationBean initInvokeTreeFiler() {
+        FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean<>(new MethodInvokeTreeFiler());
+        filterRegistrationBean.setOrder(3);
         return filterRegistrationBean;
     }
 

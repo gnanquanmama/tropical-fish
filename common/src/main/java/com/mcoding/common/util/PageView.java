@@ -20,7 +20,7 @@ public class PageView<T> {
     private List<T> records;
 
 
-    public static <T>  PageView<T> newPageView() {
+    public static <T> PageView<T> newPageView() {
         return PageView.<T>builder().build();
     }
 

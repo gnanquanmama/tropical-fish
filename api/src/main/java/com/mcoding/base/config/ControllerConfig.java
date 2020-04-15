@@ -1,9 +1,9 @@
 package com.mcoding.base.config;
 
 
-import com.mcoding.common.util.ResponseResult;
 import com.mcoding.common.exception.CommonException;
 import com.mcoding.common.util.ResponseCode;
+import com.mcoding.common.util.ResponseResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.validation.ObjectError;
@@ -24,7 +24,7 @@ public class ControllerConfig {
 	@ExceptionHandler(value = MethodArgumentNotValidException.class)
 	@ResponseBody
 	public ResponseResult<String> exceptionHandler(HttpServletRequest request, HttpServletResponse response,
-												   MethodArgumentNotValidException e) {
+                                                   MethodArgumentNotValidException e) {
 		List<ObjectError> allErrors = e.getBindingResult().getAllErrors();
 		String errorMessage = allErrors.stream().findFirst().map(ObjectError::getDefaultMessage).get();
 
@@ -34,14 +34,14 @@ public class ControllerConfig {
 	@ExceptionHandler(value = CommonException.class)
 	@ResponseBody
 	public ResponseResult<String> exceptionHandler(HttpServletRequest request, HttpServletResponse response,
-												   CommonException e) {
+                                                   CommonException e) {
 		return ResponseResult.fail(ResponseCode.Fail, e.getMessage());
 	}
 
 	@ExceptionHandler(value = Exception.class)
 	@ResponseBody
 	public ResponseResult<String> exceptionHandler(HttpServletRequest request, HttpServletResponse response,
-												   Exception e) {
+                                                   Exception e) {
 		e.printStackTrace();
 		logger.error(e.getMessage());
 		return ResponseResult.fail(ResponseCode.Fail, "接口调用异常,请联系管理员");

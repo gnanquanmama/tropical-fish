@@ -1,4 +1,4 @@
-package com.mcoding.base.filter;
+package com.mcoding.base.rate;
 
 import com.alibaba.fastjson.JSON;
 import com.google.common.util.concurrent.RateLimiter;

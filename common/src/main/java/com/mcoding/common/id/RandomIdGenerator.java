@@ -4,7 +4,6 @@ import cn.hutool.core.date.DateUtil;
 import lombok.extern.slf4j.Slf4j;
 
 import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.util.Date;
 import java.util.Random;
 
@@ -17,25 +16,24 @@ public class RandomIdGenerator implements IdGenerator {
 
     @Override
     public String generate() {
-        String lastfieldOfHostName = getLastfieldOfHostName();
-        long threadId = Thread.currentThread().getId();
         String dateTime = DateUtil.format(new Date(), "yyyyMMddHHmmssSSS");
+        int lastFieldOfAddress = getLastfieldOfAddress();
         String randomAlphameric = generateRandomAlphameric(8);
 
-        return String.format("%s-%d-%s-%s", lastfieldOfHostName, threadId, dateTime, randomAlphameric);
+        return String.format("%s-%03d%s", dateTime, lastFieldOfAddress, randomAlphameric);
     }
 
-    private String getLastfieldOfHostName() {
-        String substrOfHostName = "";
+    private int getLastfieldOfAddress() {
+        int lastFieldOfAddress = 0;
         try {
             String getHostAddress = InetAddress.getLocalHost().getHostAddress();
             String[] tokens = getHostAddress.split("\\.");
-            substrOfHostName = tokens[tokens.length - 1];
-            return substrOfHostName;
-        } catch (UnknownHostException e) {
+            String lastFieldOfAddressStr = tokens[tokens.length - 1];
+            return Integer.valueOf(lastFieldOfAddressStr);
+        } catch (Exception e) {
             log.warn("Failed to get the host name.", e);
         }
-        return substrOfHostName;
+        return lastFieldOfAddress;
     }
 
     private String generateRandomAlphameric(int length) {

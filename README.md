@@ -1,15 +1,20 @@
 # Tropical Fish   
 
-基于springboot的后端开发脚手架, ORM采用mybatis-plus，缓存框架使用Redisson，接口文档使用swagger。
+基于springboot的后端开发脚手架, ORM使用mybatis-plus, 缓存框架使用Redisson, 定时调度使用xxl-job, 服务链路监控使用zipkin, rpc使用dubbo, 接口文档使用swagger。
 
 
 ### 项目特点
-1. 自定义查询语法，配合 mybatis-plus-generate-code项目, 单表情况下，开发定义好表结构之后，生成代码，可不用写一行代码，就完成开发任务，减轻后端开发任务，提高效率。
+1. 自定义查询语法，配合 mybatis-plus-generate-code项目, 单表情况下，开发定义好表结构之后，生成代码，可不用写一行代码，就完成开发任务，减轻后端开发任务，提高效率。  
+
 2. 自定义缓存RCacheable注解，实现分布式缓存。支持spel语法，可直接指定expireTime。  
-示例：@RCacheable(key = "dmt::miniprogram::token", secKey = "#token", ttl = 1, timeUnit = TimeUnit.DAYS)
-3. 参考<从码农到工匠>控制代码复杂度的做法。复杂的业务的流程可拆分为多个阶段，每个阶段下有多个自步骤。   
-自定义注解，过程@Process, 阶段@Phase, 步骤@Step。在阶段和步骤方法上加上相应的注解，即可根据请求返回的TraceId查询service级别的方法调用树。   
-开发可以不写文档，就可以得到一颗调用树，得到复杂业务逻辑的主干架构，所讲即所得。某种程度上解决了开发不爱写文档，又抱怨新接手项目没有文档的尴尬处境。 
+示例：@RCacheable(key = "dmt::miniprogram::token", secKey = "#token", ttl = 1, timeUnit = TimeUnit.DAYS)  
+
+3. 自定义service方法级别文档生成规则和实现。  
+开发不需要手写文档，就可以得到一颗拥有层次结构的方法调用树，得到复杂业务逻辑的主干架构。每个树结点有Java类方法，行数等信息，所见即所得。  
+参考<从码农到工匠>控制代码复杂度的做法。复杂的业务的流程可拆分为多个阶段，每个阶段下有多个自步骤。   
+自定义注解，过程@Process, 阶段@Phase, 步骤@Step。在阶段和步骤方法上加上相应的注解，即可根据请求返回的TraceId查询service级别的方法调用树。  
+某种程度上解决了开发不爱写文档，又抱怨接手新项目没有文档的尴尬处境。     
+
 
 
 #### 自定义查询语法   
@@ -49,19 +54,16 @@
     process(提交订单）
     │
     └───phase(初始化数据）
-    |       │   
     |       └───step
     |           │ 1. 组装上下文
     |           
     └───phase(校验阶段）
-    |       |   
     |       └───step
     |           │ 1.库存校验
     |           │ 2.限购校验
     |           │ 3.活动冲突校验
     |           
     |───phase(执行阶段）
-    |        │   
     |        └───step
     |             │ 1.预扣库存
     |             │ 2.支付

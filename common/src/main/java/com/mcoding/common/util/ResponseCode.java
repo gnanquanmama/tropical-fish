@@ -32,6 +32,7 @@ public enum ResponseCode {
 	Accouont_Password_Expired("403", "base_password_expired", "密码过期"),
 	Account_Password_Worng("403", "base_account_password_worng", "用户名或密码错误"),
 	Account_Username_Not_Found("401", "base_account_username_not_found", "找不到该帐号"),
+    UNAUTHORIZED("401", "", "未认证"),
 	Account_Sessioin_Expired("403", "base_account_session_expired", "session会话异常"),
 	Account_Captcha_Not_Found("403","base_account_captcha_not_found","验证码异常"),
 	Account_Captcha_Worng("403","base_account_captcha_worng","验证码有误"),

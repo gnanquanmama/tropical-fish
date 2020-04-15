@@ -13,11 +13,10 @@ import org.springframework.web.client.RestTemplate;
  * @version 1.0
  */
 @Configuration
-public class RestTemplateConfig {
+public class HttpComponentConfig {
 
     @Bean
     public RestTemplate restTemplate(ClientHttpRequestFactory factory) {
-
         ResponseErrorHandler responseErrorHandler = new ResponseErrorHandler() {
             @Override
             public boolean hasError(ClientHttpResponse clientHttpResponse) {
@@ -39,7 +38,7 @@ public class RestTemplateConfig {
     public ClientHttpRequestFactory simpleClientHttpRequestFactory() {
         SimpleClientHttpRequestFactory factory = new SimpleClientHttpRequestFactory();
         factory.setReadTimeout(5000);
-        factory.setConnectTimeout(5000);
+        factory.setConnectTimeout(3000);
         return factory;
     }
 

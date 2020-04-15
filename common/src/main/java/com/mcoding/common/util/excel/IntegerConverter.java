@@ -7,7 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.List;
 import java.util.regex.Pattern;
 
-public class IntegerConverter implements StrToObjConverter<Integer>, ObjToStrConverter<Integer>{
+public class IntegerConverter implements StrToObjConverter<Integer>, ObjToStrConverter<Integer> {
 
     private static Pattern pattern = Pattern.compile("^\\-*\\d+");
 
