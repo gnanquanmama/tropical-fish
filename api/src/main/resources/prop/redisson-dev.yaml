@@ -1,7 +1,7 @@
 singleServerConfig:
-  address: "redis://cacheuat02.liby.com.cn:6381"
+  address: "redis://127.0.0.1:6381"
   password: abc123
-  clientName: dmt_client_dev
+  clientName: fish_api_dev
   database: 0
   idleConnectionTimeout: 10000
   pingTimeout: 1000

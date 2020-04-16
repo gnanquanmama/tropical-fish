@@ -54,10 +54,10 @@ public class SwaggerConfig {
     }
 
     private ApiInfo apiInfo() {
-        Contact contact = new Contact("数字化营销工具API", "https://www.liby.com/", "dmt@liby.com");
+        Contact contact = new Contact("FISH-API", "https://www.fish.com/", "dmt@fish.com");
         return new ApiInfoBuilder()
-                .title("数字化营销工具")
-                .description("立白集团-数字化营销工具")
+                .title("FISH-API")
+                .description("FISH-API")
                 .contact(contact)
                 .version("1.0.0")
                 .build();
