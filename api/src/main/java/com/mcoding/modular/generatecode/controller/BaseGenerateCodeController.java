@@ -3,6 +3,7 @@ package com.mcoding.modular.generatecode.controller;
 import com.mcoding.common.util.ResponseResult;
 import com.mcoding.modular.generatecode.service.BaseGenerateCodeService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,7 +20,7 @@ public class BaseGenerateCodeController {
     @Resource
     private BaseGenerateCodeService baseGenerateCodeService;
 
-    //@ApiOperation("生成编码")
+    @ApiOperation("生成编码")
     @PostMapping("/service/generateCode/generateNextCode")
     public ResponseResult<String> generateNextCode(String targetCode) {
         return ResponseResult.success(this.baseGenerateCodeService.generateNextCode(targetCode));

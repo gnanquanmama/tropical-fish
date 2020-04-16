@@ -2,10 +2,7 @@ package com.mcoding.base.doc;
 
 import com.mcoding.base.utils.ReflectUtils;
 import com.mcoding.common.util.MdcConstants;
-import javassist.ClassPool;
-import javassist.CtClass;
-import javassist.CtMethod;
-import javassist.NotFoundException;
+import javassist.*;
 import javassist.bytecode.MethodInfo;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.After;
@@ -45,9 +42,7 @@ public class EventTraceAspect {
     public void doBefore(JoinPoint joinPoint) throws NotFoundException {
 
         Method method = ReflectUtils.getCurrentMethod(joinPoint);
-        CtMethod ctMethod = this.getCtMethod(method);
-        MethodInfo methodInfo = ctMethod.getMethodInfo();
-        int lineNumber = methodInfo.getLineNumber(0);
+        int lineNumber = this.getLineNumber(method);
         String methodName = method.getDeclaringClass().getSimpleName() + "." + method.getName();
 
         boolean isProcessPresent = method.isAnnotationPresent(Process.class);
@@ -109,12 +104,25 @@ public class EventTraceAspect {
         }
     }
 
+    private int getLineNumber(Method method) {
+        try {
+            CtMethod ctMethod = this.getCtMethod(method);
+            MethodInfo methodInfo = ctMethod.getMethodInfo2();
+            return methodInfo.getLineNumber(0);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
+
     private CtMethod getCtMethod(Method method) throws NotFoundException {
         String className = method.getDeclaringClass().getName();
         String methodName = method.getName();
 
-        ClassPool pool = ClassPool.getDefault();
-        CtClass ctClass = pool.get(className);
+        ClassPool classPool = ClassPool.getDefault();
+        classPool.appendClassPath(new LoaderClassPath(Thread.currentThread().getContextClassLoader()));
+        CtClass ctClass = classPool.get(className);
+
         return ctClass.getDeclaredMethod(methodName);
     }
 
