@@ -20,7 +20,7 @@ import java.util.concurrent.TimeUnit;
  * @version 1.0
  */
 @Slf4j
-@Api(tags = "集成服务")
+@Api(tags = "MOCK-集成服务")
 @RestController
 public class IntegrateController {
 

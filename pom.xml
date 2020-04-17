@@ -27,6 +27,7 @@
     <modules>
         <module>common</module>
         <module>api</module>
+        <module>generator</module>
     </modules>
 
     <dependencyManagement>

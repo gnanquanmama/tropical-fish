@@ -35,3 +35,5 @@ hs_err_pid*
 _dockerCerts/
 
 .factorypath
+
+generatortmp/*

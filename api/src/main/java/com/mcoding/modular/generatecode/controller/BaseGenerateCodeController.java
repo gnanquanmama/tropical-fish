@@ -13,7 +13,7 @@ import javax.annotation.Resource;
  * @author wzt on 2020/2/9.
  * @version 1.0
  */
-@Api(tags = "生成编码服务")
+@Api(tags = "基础-生成编码服务")
 @RestController
 public class BaseGenerateCodeController {
 
