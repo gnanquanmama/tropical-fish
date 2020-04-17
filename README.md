@@ -1,6 +1,6 @@
 # Tropical Fish   
 
-基于springboot的后端开发脚手架, ORM使用mybatis-plus, 缓存框架使用Redisson, 定时调度使用xxl-job, 服务链路监控使用zipkin, rpc使用dubbo, 接口文档使用swagger。
+Pragmatic风格的Java后端开发脚手架。 基于SpringBoot，技术选型采用主流的框架（Mybatis-Plus，Redisson，Xxl-job，Dubbo，Swagger）。开箱即用，提高研发效能。
 
 
 ### 项目特点
@@ -17,39 +17,54 @@
    示例：@RCacheable(key = "dmt::miniprogram::token", secKey = "#token", ttl = 1, timeUnit = TimeUnit.DAYS)  
 
 
-#### 自定义查询语法   
-    1.查询条件语法规则：
-      {
-         "current":  页码,
-         "size":  页数,
-         "modelField_$_operation":"搜索条件",
-         "orderByDesc":"指定字段"
-      }
-      
-      说明：modelField 对应的是接口返回的字段名称，例如userName。
-      排序使用orderByDesc，orderByAsc
-      
-    2.分隔符使用：_$_
-    3.operation  取值如下：
-               eq  等于  =
-               ne  不等于  <>
-               gt  大于  >
-               ge  大于等于  >=
-               lt  小于  <
-               le  小于等于  <=
-               like  LIKE  '%值%'
-               in  IN  []
-    4.DEMO：
-      {
+* #### 自定义查询语法   
+  > 查询条件语法规则
+    ```json
+         {
+             "current":  "页码",
+             "size":  "页数",
+             "modelField_$_operation":"搜索条件",
+             "orderByDesc":"modelField"
+          }
+    ```
+  > 示例
+    ```json
+         {
               "current":1,
               "size":10,
               "userName_$_like":"github",
               "orderStatus_$_in":[1,3,4],
-              "startTime_$_gt":1581392098000,
+              "createTime_$_gt":1581392098000,
               "orderByDesc": "createTime"
-      }
+         }
+    ```
+       
+  > 关键字说明       
+       
+    |KEYWORD| DESC|
+    |:----: | :----: |
+    | modelField  | 模型字段 |
+    | \_$_  | 分隔符 |  
+    | orderByDesc  | 递减 | 
+    | orderByDesc  | 递增 | 
+    
+  >Operation取值描述
+
+    |Operation| DESC| 语义| 
+    |:----: | :----: | :----:| 
+    | eq  | 等于 | = |
+    | ne  | 不等于 | <> |
+    | gt  | 大于 | > |
+    | ge  | 大于等于 | >= |
+    | lt  | 小于 | < |
+    | ne  | 不等于 | <= |
+    | like| 模糊搜索 | '%值%' |
+    | in  | in | in |
+        
      
-#### 方法调用树
+---
+### 方法调用树示例
+
     
     process(提交订单）
     │
