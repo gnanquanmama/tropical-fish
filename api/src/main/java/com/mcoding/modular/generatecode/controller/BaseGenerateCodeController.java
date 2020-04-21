@@ -1,6 +1,6 @@
 package com.mcoding.modular.generatecode.controller;
 
-import com.mcoding.common.util.ResponseResult;
+import com.mcoding.common.util.rest.ResponseResult;
 import com.mcoding.modular.generatecode.service.BaseGenerateCodeService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

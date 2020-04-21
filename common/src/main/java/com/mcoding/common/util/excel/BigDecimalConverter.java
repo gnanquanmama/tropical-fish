@@ -12,7 +12,7 @@ import java.util.List;
  * @author zhengzhongfeng
  *
  */
-public class BigDecimalConverter implements StrToObjConverter<BigDecimal>, ObjToStrConverter<BigDecimal>{
+public class BigDecimalConverter implements StrToObjConverter<BigDecimal>, ObjToStrConverter<BigDecimal> {
 
     @Override
     public BigDecimal convert(String content, List<Cell> rows, Sheet sheet) {

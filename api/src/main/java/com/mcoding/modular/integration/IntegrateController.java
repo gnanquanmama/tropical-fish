@@ -1,7 +1,7 @@
 package com.mcoding.modular.integration;
 
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.mcoding.common.util.ResponseResult;
+import com.mcoding.common.util.rest.ResponseResult;
 import com.mcoding.modular.dubbo.DemoService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
