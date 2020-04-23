@@ -80,6 +80,7 @@ public class CodeGenerator {
 
         // 包配置
         PackageConfig packageConfig = new PackageConfig();
+        packageConfig.setMapper("dao");
         packageConfig.setParent(scanner("包名"));
         packageConfig.setModuleName(scanner("模块名"));
 
