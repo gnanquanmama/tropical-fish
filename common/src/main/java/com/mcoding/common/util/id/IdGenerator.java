@@ -1,4 +1,4 @@
-package com.mcoding.common.id;
+package com.mcoding.common.util.id;
 
 /**
  * @author wzt on 2020/3/9.

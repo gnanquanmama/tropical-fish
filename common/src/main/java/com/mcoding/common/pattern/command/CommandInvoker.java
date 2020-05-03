@@ -1,4 +1,4 @@
-package com.mcoding.common.command;
+package com.mcoding.common.pattern.command;
 
 /**
  * @author wzt on 2019/11/20.

@@ -1,6 +1,6 @@
 package com.mcoding.base.log;
 
-import com.mcoding.common.id.RandomIdGenerator;
+import com.mcoding.common.util.id.RandomIdGenerator;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;

@@ -1,4 +1,4 @@
-package com.mcoding.common.id;
+package com.mcoding.common.util.id;
 
 import cn.hutool.core.date.DateUtil;
 import lombok.extern.slf4j.Slf4j;
