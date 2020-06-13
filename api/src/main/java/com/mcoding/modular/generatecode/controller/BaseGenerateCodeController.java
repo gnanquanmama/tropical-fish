@@ -4,6 +4,7 @@ import com.mcoding.common.util.rest.ResponseResult;
 import com.mcoding.modular.generatecode.service.BaseGenerateCodeService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.javasimon.aop.Monitored;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,6 +21,7 @@ public class BaseGenerateCodeController {
     @Resource
     private BaseGenerateCodeService baseGenerateCodeService;
 
+    @Monitored
     @ApiOperation("生成编码")
     @PostMapping("/service/generateCode/generateNextCode")
     public ResponseResult<String> generateNextCode(String targetCode) {
