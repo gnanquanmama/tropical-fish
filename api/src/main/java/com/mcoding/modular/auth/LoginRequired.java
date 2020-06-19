@@ -1,4 +1,4 @@
-package com.mcoding.base.auth;
+package com.mcoding.modular.auth;
 
 import java.lang.annotation.*;
 

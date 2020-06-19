@@ -1,6 +1,7 @@
-package com.mcoding.base.config;
+package com.mcoding.modular.auth.config;
 
-import com.mcoding.base.auth.LoginRequiredArgumentResolver;
+import com.mcoding.modular.auth.LoginRequiredArgumentResolver;
+import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.List;
@@ -9,6 +10,7 @@ import java.util.List;
  * @author wzt on 2020/6/13.
  * @version 1.0
  */
+@Component
 public class LoginRequiredConfig implements WebMvcConfigurer {
 
     @Override
