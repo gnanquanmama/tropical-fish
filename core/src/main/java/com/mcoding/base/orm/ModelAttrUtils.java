@@ -1,4 +1,4 @@
-package com.mcoding.common.util.mybatisplus;
+package com.mcoding.base.orm;
 
 import cn.hutool.core.util.ReflectUtil;
 import com.baomidou.mybatisplus.annotation.TableField;

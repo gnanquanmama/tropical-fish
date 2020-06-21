@@ -10,9 +10,9 @@ import jxl.format.BorderLineStyle;
 import jxl.write.*;
 import jxl.write.biff.RowsExceededException;
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.reflect.FieldUtils;
-import org.springframework.util.CollectionUtils;
 
 import java.io.IOException;
 import java.io.InputStream;

@@ -1,4 +1,4 @@
-package com.mcoding.common.util.mybatisplus;
+package com.mcoding.base.orm;
 
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.metadata.IPage;

@@ -2,7 +2,7 @@ package com.mcoding.base.rate;
 
 import com.alibaba.fastjson.JSON;
 import com.google.common.util.concurrent.RateLimiter;
-import com.mcoding.common.util.rest.ResponseResult;
+import com.mcoding.base.rest.ResponseResult;
 
 import javax.servlet.*;
 import java.io.IOException;

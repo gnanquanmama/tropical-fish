@@ -2,7 +2,7 @@ package com.mcoding.base.doc.controller;
 
 import com.mcoding.base.doc.EventNode;
 import com.mcoding.base.doc.EventNodeContainer;
-import com.mcoding.common.util.rest.ResponseResult;
+import com.mcoding.base.rest.ResponseResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.GetMapping;

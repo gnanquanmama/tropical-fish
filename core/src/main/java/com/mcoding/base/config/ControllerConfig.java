@@ -1,7 +1,7 @@
 package com.mcoding.base.config;
 
 
-import com.mcoding.common.util.rest.ResponseResult;
+import com.mcoding.base.rest.ResponseResult;
 import com.mcoding.common.exception.CommonException;
 import com.mcoding.common.util.rest.ResponseCode;
 import org.slf4j.Logger;

@@ -1,6 +1,6 @@
 package com.mcoding.modular.auth.controller;
 
-import com.mcoding.common.util.rest.ResponseResult;
+import com.mcoding.base.rest.ResponseResult;
 import com.mcoding.modular.auth.entity.LoginUser;
 import com.mcoding.modular.auth.util.LoginUserUtils;
 import io.swagger.annotations.Api;

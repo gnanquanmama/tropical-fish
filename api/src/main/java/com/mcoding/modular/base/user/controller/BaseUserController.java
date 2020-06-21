@@ -1,8 +1,8 @@
 package com.mcoding.modular.base.user.controller;
 
 
-import com.mcoding.common.util.mybatisplus.SmartWrapper;
-import com.mcoding.common.util.rest.ResponseResult;
+import com.mcoding.base.orm.SmartWrapper;
+import com.mcoding.base.rest.ResponseResult;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.*;
@@ -14,8 +14,6 @@ import com.alibaba.fastjson.JSONObject;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-
-import com.mcoding.common.util.*;
 
 import com.mcoding.modular.base.user.service.BaseUserService;
 import com.mcoding.modular.base.user.entity.BaseUser;

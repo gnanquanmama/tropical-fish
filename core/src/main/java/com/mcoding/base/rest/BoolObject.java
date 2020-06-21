@@ -1,4 +1,4 @@
-package com.mcoding.common.util.rest;
+package com.mcoding.base.rest;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
