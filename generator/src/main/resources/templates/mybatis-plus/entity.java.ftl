@@ -85,7 +85,7 @@ public class ${entity} implements Serializable {
     @Version
     </#if>
 <#-- 逻辑删除注解 -->
-    <#if (logicDeleteFieldName!"") == field.name>
+    <#if "deleted" == field.name>
     @TableLogic
     </#if>
     private ${field.propertyType} ${field.propertyName};

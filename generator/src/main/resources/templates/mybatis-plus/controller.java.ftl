@@ -13,7 +13,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 
-import com.mcoding.util.*;
+import com.mcoding.common.util.*;
 
 import ${package.Service}.${table.serviceName};
 import ${package.Entity}.${entity};
