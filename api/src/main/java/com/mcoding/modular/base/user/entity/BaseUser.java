@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.annotation.*;
 
 import java.util.Date;
 import java.io.Serializable;
+
+import com.mcoding.common.util.excel.ExcelField;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -31,6 +33,7 @@ public class BaseUser implements Serializable {
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
+    @ExcelField(title = "openId")
     @ApiModelProperty(value = "openId")
     @TableField("openId")
     private String openId;
@@ -39,10 +42,12 @@ public class BaseUser implements Serializable {
     @TableField("unionId")
     private String unionId;
 
+    @ExcelField(title = "手机号码")
     @ApiModelProperty(value = "手机号码")
     @TableField("mobile_number")
     private String mobileNumber;
 
+    @ExcelField(title = "昵称")
     @ApiModelProperty(value = "昵称")
     @TableField("nick_name")
     private String nickName;
