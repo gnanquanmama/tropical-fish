@@ -81,7 +81,7 @@ public class BaseUserController {
 
 
     @ApiOperation("导出")
-    @GetMapping(value = "/service/user/exportOrderByExcel")
+    @GetMapping(value = "/service/user/exportByExcel")
     @ResponseBody
     public ResponseResult<String> exportByExcel(
             @RequestParam(required = false) Map<String, Object> queryParam,

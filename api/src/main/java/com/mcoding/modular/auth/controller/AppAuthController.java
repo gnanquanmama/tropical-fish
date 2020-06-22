@@ -27,7 +27,7 @@ public class AppAuthController {
 
     @Monitored
     @ApiOperation(value = "登录")
-    @PostMapping("/auth/login")
+    @PostMapping("/service/auth/login")
     public ResponseResult<BaseUser> register(@RequestParam String mobilePhone) {
 
         QueryWrapper<BaseUser> queryWrapper = new QueryWrapper<>();
