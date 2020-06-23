@@ -2,6 +2,8 @@ package com.mcoding.modular.auth.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.mcoding.base.rest.ResponseResult;
+import com.mcoding.common.exception.BizException;
+import com.mcoding.common.util.Assert;
 import com.mcoding.modular.auth.util.LoginUserUtils;
 import com.mcoding.modular.base.user.entity.BaseUser;
 import com.mcoding.modular.base.user.service.BaseUserService;
@@ -28,12 +30,15 @@ public class AppAuthController {
     @Monitored
     @ApiOperation(value = "登录")
     @PostMapping("/service/auth/login")
-    public ResponseResult<BaseUser> register(@RequestParam String mobilePhone) {
+    public ResponseResult<BaseUser> login(@RequestParam String mobilePhone) {
 
         QueryWrapper<BaseUser> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(BaseUser::getMobileNumber, mobilePhone);
 
         BaseUser currentUser = this.baseUserService.getOne(queryWrapper);
+
+        Assert.isNotNull(currentUser, String.format("用户%s不存在", mobilePhone));
+
         LoginUserUtils.markAsLogin(currentUser);
 
         return ResponseResult.success(currentUser);

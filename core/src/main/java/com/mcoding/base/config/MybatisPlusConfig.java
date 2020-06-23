@@ -21,13 +21,25 @@ public class MybatisPlusConfig {
         return DruidDataSourceBuilder.create().build();
     }
 
+    /**
+     * 分页
+     *
+     * @return
+     */
     @Bean
     public PaginationInterceptor paginationInterceptor() {
         return new PaginationInterceptor();
     }
 
+    /**
+     * 乐观锁
+     *
+     * @return
+     */
     @Bean
     public OptimisticLockerInterceptor optimisticLockerInterceptor() {
         return new OptimisticLockerInterceptor();
     }
+
+
 }
