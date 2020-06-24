@@ -1,7 +1,7 @@
 package com.mcoding.base.config;
 
-import com.mcoding.base.log.TraceRequestFiler;
 import com.mcoding.base.doc.filter.MethodInvokeTreeFiler;
+import com.mcoding.base.log.TraceRequestFiler;
 import com.mcoding.base.rate.RateLimitFilter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;

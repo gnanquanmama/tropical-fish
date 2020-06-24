@@ -1,8 +1,8 @@
 package com.mcoding.base.log;
 
+import com.mcoding.common.util.constant.MdcConstants;
 import com.mcoding.common.util.id.IdGenerator;
 import com.mcoding.common.util.id.RandomIdGenerator;
-import com.mcoding.common.util.constant.MdcConstants;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
 

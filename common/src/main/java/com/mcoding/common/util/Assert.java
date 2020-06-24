@@ -1,7 +1,7 @@
 package com.mcoding.common.util;
 
 import com.mcoding.common.exception.CommonException;
-import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.Collection;
@@ -10,15 +10,14 @@ import java.util.List;
 
 /**
  * 帮助验证参数的断言工具
- * 
- * @author hzy
  *
+ * @author hzy
  */
 public class Assert {
 
     /**
      * 列表不能为空，否则就报错
-     * 
+     *
      * @param list
      * @param defaultMsg
      */
@@ -30,7 +29,7 @@ public class Assert {
 
     /**
      * 列表不能为空，否则就报错
-     * 
+     *
      * @param list
      * @param defaultMsg
      * @param i18n
@@ -43,7 +42,7 @@ public class Assert {
 
     /**
      * 值不能为空，如果是空则报错
-     * 
+     *
      * @param value
      * @param defaultMsg
      */
@@ -54,7 +53,7 @@ public class Assert {
 
     /**
      * 值不能为空，如果是空则报错
-     * 
+     *
      * @param value
      * @param defaultMsg
      * @param i18n
@@ -66,28 +65,28 @@ public class Assert {
 
     /**
      * 参数不能为空，为空报错
-     * 
+     *
      * @param type
      * @param mss
      */
     public static void isNotNull(Object type, String mss) {
-    	if (type == null) 
+        if (type == null)
             throw new CommonException(mss);
     }
 
     /**
      * 参数不能为空，为空报错
-     * 
+     *
      * @param type
      */
     public static void isNotNull(Object type) {
-    	if (type == null) 
+        if (type == null)
             throw new CommonException(type + "不能为空");
     }
 
     /**
      * 值应该存在。如果不存在，则报错
-     * 
+     *
      * @param list
      * @param value
      */
@@ -99,12 +98,12 @@ public class Assert {
 
     /**
      * 值应该不存在存在。如果存在，则报错
-     * 
+     *
      * @param obj
      * @param str
      */
     public static <T> void doNotExists(List<T> list, T value, String msg) {
-    	if (list.contains(value))
+        if (list.contains(value))
             throw new CommonException(StringUtils.defaultIfBlank(msg, "该值已经存在"));
 
     }

@@ -62,4 +62,13 @@
         </plugins>
     </build>
 
+    <developers>
+        <developer>
+            <name>wuzetao</name>
+            <email>zetao_wu@163.com</email>
+            <organization>mcoding</organization>
+        </developer>
+
+    </developers>
+
 </project>

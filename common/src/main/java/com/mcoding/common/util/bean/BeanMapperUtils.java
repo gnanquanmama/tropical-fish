@@ -1,14 +1,17 @@
 package com.mcoding.common.util.bean;
 
+import cn.hutool.core.collection.CollectionUtil;
 import ma.glasnost.orika.MapperFacade;
 import ma.glasnost.orika.MapperFactory;
 import ma.glasnost.orika.impl.DefaultMapperFactory;
 import ma.glasnost.orika.metadata.Type;
-import org.apache.commons.collections.CollectionUtils;
 
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * 实体熟悉映射工具
+ */
 public abstract class BeanMapperUtils {
 
     private static MapperFactory mapperFactory = new DefaultMapperFactory.Builder().build();
@@ -32,7 +35,7 @@ public abstract class BeanMapperUtils {
     }
 
     public static <S, D> List<D> mapAsList(List<S> source, Class<D> clazz) {
-        if (CollectionUtils.isEmpty(source)) {
+        if (CollectionUtil.isEmpty(source)) {
             return Collections.emptyList();
         }
 
