@@ -21,11 +21,12 @@ Pragmatic 风格的 Java 后端开发脚手架。 基于 SpringBoot，技术选�
    > @PostMapping("/service/generateCode/generateNextCode")
    > public ResponseResult<String> generateNextCode(
    > 			@ApiIgnore @LoginRequired LoginUser loginUser,String targetCode) {
-   > 	System.out.println(loginUser);
-   > 
+   > 	log.info("current user is {}", JSON.toJSONString(loginUser));
    > 	return ResponseResult.success();
    > }
    > ```
+
+5. 自研 Excel 报表导出工具， 配合自定义查询语法，可高效开发报表导出功能。详细参照方法：BaseUserController.exportByExcel 。
 
 #### 自定义查询语法   
 

@@ -9,7 +9,7 @@ import java.lang.annotation.*;
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.FIELD})
-public @interface ExcelField {
+public @interface Excel {
 
     String title();
     Class<? extends ObjToStrConverter> objToStrConverter() default ObjToStrConverter.class;

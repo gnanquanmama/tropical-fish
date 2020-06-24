@@ -53,6 +53,29 @@ public class ExcelUtils {
     /**
      * 把数据导出到excel表
      *
+     * @param os          excel表的导出 流
+     * @param recordClass 拥有元数据信息的类
+     * @param data        导出的数据
+     * @param sheetTitle  title名
+     * @param sheetIndex  title的索引 表示在第几行
+     * @return
+     * @throws IOException
+     * @throws WriteException
+     * @throws RowsExceededException
+     * @throws ParseException
+     */
+    public static WritableWorkbook exportDataToExcel(OutputStream os,
+                                                     Class<?> recordClass, List<? extends Object> data, String sheetTitle,
+                                                     String headTitle, int sheetIndex) throws Exception {
+
+        List<TitleAndModelKey> titleAndModelKeys = createTitleAndModelKeyList(recordClass);
+
+        return exportDataToExcel(os, titleAndModelKeys, data, sheetTitle, headTitle, sheetIndex, null);
+    }
+
+    /**
+     * 把数据导出到excel表
+     *
      * @param os                excel表的导出 流
      * @param titleAndModelKeys 表头与数据的关联,不能为空。例如：{ {"序号", "id"}}， “序号”是导出的excel表的表头，“id”是导入data数据的key
      * @param data              导出的数据
@@ -395,14 +418,14 @@ public class ExcelUtils {
         Field[] fields = ReflectUtil.getFields(clazz);
 
         for (Field field : fields) {
-            ExcelField excelField = field.getAnnotation(ExcelField.class);
-            if (excelField == null) {
+            Excel excel = field.getAnnotation(Excel.class);
+            if (excel == null) {
                 continue;
             }
 
-            String title = excelField.title();
+            String title = excel.title();
             String modelKey = field.getName();
-            Class<? extends ObjToStrConverter> converter = excelField.objToStrConverter();
+            Class<? extends ObjToStrConverter> converter = excel.objToStrConverter();
             if (converter == ObjToStrConverter.class) {
                 list.add(new TitleAndModelKey(title, modelKey));
             } else {

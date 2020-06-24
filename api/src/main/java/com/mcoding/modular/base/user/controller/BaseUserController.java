@@ -8,7 +8,6 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.mcoding.base.orm.SmartWrapper;
 import com.mcoding.base.rest.ResponseResult;
 import com.mcoding.common.util.excel.ExcelUtils;
-import com.mcoding.common.util.excel.TitleAndModelKey;
 import com.mcoding.modular.base.user.entity.BaseUser;
 import com.mcoding.modular.base.user.service.BaseUserService;
 import io.swagger.annotations.Api;
@@ -95,20 +94,18 @@ public class BaseUserController {
                 new String(fileName.getBytes("UTF-8"), "ISO8859-1")));
         httpServletResponse.addHeader("Cache-Control", "no-cache");
 
-        OutputStream outputStream = httpServletResponse.getOutputStream();
-        List<TitleAndModelKey> titleAndModelKeyList = ExcelUtils.createTitleAndModelKeyList(BaseUser.class);
-
-        JSONObject queryObject = new JSONObject(queryParam);
-
         SmartWrapper<BaseUser> smartWrapper = new SmartWrapper<>();
-        smartWrapper.parse(queryObject, BaseUser.class);
+        smartWrapper.parse(new JSONObject(queryParam), BaseUser.class);
 
         QueryWrapper<BaseUser> queryWrapper = smartWrapper.getQueryWrapper();
         queryWrapper.lambda().orderByDesc(BaseUser::getCreateTime);
-
         List<BaseUser> activityOrderList = this.baseUserService.list(queryWrapper);
 
-        WritableWorkbook writableWorkbook = ExcelUtils.exportDataToExcel(outputStream, titleAndModelKeyList, activityOrderList, "用户", null, 0);
+        OutputStream outputStream = httpServletResponse.getOutputStream();
+
+        WritableWorkbook writableWorkbook = ExcelUtils.exportDataToExcel(
+                outputStream, BaseUser.class, activityOrderList, "用户", null, 0);
+
         writableWorkbook.write();
         writableWorkbook.close();
 
