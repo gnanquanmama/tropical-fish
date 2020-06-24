@@ -1,6 +1,7 @@
 package com.mcoding.common.util.excel;
 
 import cn.hutool.core.util.ReflectUtil;
+import com.mcoding.common.util.reflect.ReflectUtils;
 import jxl.Cell;
 import jxl.Sheet;
 import jxl.Workbook;
@@ -9,7 +10,6 @@ import jxl.format.Border;
 import jxl.format.BorderLineStyle;
 import jxl.write.*;
 import jxl.write.biff.RowsExceededException;
-import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.reflect.FieldUtils;
@@ -187,12 +187,14 @@ public class ExcelUtils {
      * @param sheetIndex        导入的excel的sheet的索引
      * @param dataStartRowIndex 导入excel的首行数据。从首行数据一直向下查找数据，直至找不到。
      * @param headRowIndex      导入的excel表的表头的索引
-     * @param titleAndModelKeys 例如：{ {"序号", "id"}}， “序号”是导入的excel表的表头，“id”是导出的data数据的key
+     * @param clazz
      * @return
      * @throws Exception
      */
-    public static <T> List<T> importExcelDataToMap(InputStream in, int sheetIndex, int dataStartRowIndex,
-                                                   int headRowIndex, List<TitleAndModelKey> titleAndModelKeys, Class<T> clazz) throws Exception {
+    public static <T> List<T> importExcelDataToList(InputStream in, int sheetIndex, int dataStartRowIndex,
+                                                    int headRowIndex, Class<T> clazz) throws Exception {
+        List<TitleAndModelKey> titleAndModelKeys = createTitleAndModelKeyList(clazz);
+
         if (CollectionUtils.isEmpty(titleAndModelKeys)) {
             throw new NullPointerException("export setting 'titleAndModelKeys' can not be null");
         }
@@ -246,8 +248,7 @@ public class ExcelUtils {
 
             try {
                 // 2.2 根据属性值反射获取类型
-                //ReflectUtils.setValue(object, key, convertStrToObject(object, sheet, row, titleAndModelKey));
-                BeanUtils.setProperty(object, key, convertStrToObject(object, sheet, row, titleAndModelKey));
+                ReflectUtils.setValue(object, key, convertStrToObject(object, sheet, row, titleAndModelKey));
 
             } catch (Exception e) {
                 throw new RuntimeException(String.format("导入[%s]失败，原因:%s", title, e.getMessage()), e);

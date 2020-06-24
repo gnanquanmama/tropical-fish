@@ -13,10 +13,12 @@ import com.mcoding.modular.generatecode.entity.BaseGenerateCode;
 import com.mcoding.modular.generatecode.service.BaseGenerateCodeService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
 import org.javasimon.aop.Monitored;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import springfox.documentation.annotations.ApiIgnore;
 
@@ -38,7 +40,8 @@ public class BaseGenerateCodeController {
     @Monitored
     @ApiOperation("生成编码")
     @PostMapping("/service/generateCode/generateNextCode")
-    public ResponseResult<String> generateNextCode(@ApiIgnore @LoginRequired BaseUser loginUser, String targetCode) {
+    public ResponseResult<String> generateNextCode(@ApiIgnore @LoginRequired BaseUser loginUser,
+                                                   @ApiParam("目标记录编码") @RequestParam String targetCode) {
 
         log.info("current user is {}", JSON.toJSONString(loginUser));
 
