@@ -11,6 +11,4 @@ import java.lang.annotation.*;
 @Documented
 public @interface LoginRequired {
 
-    String sessionKey() default "currentUser";
-
 }

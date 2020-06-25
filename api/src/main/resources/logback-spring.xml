@@ -138,7 +138,7 @@
 
 
     <springProfile name="dev,test">
-        <root level="info">
+        <root level="debug">
             <appender-ref ref="CONSOLE" />
             <appender-ref ref="DEBUG_FILE" />
             <appender-ref ref="INFO_FILE" />
