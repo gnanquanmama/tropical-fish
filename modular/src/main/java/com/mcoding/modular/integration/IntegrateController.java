@@ -20,7 +20,7 @@ import java.util.concurrent.TimeUnit;
  * @version 1.0
  */
 @Slf4j
-@Api(tags = "MOCK-集成服务")
+//@Api(tags = "MOCK-集成服务")
 @RestController
 public class IntegrateController {
 
@@ -32,7 +32,7 @@ public class IntegrateController {
             interfaceClass = DemoService.class)
     private DemoService demoService;
 
-    @ApiOperation("zipkin集成测试")
+    //@ApiOperation("zipkin集成测试")
     @GetMapping("/service/dubbo/getUserName")
     public ResponseResult<String> testMethod(String userName) {
         return ResponseResult.success(demoService.sayHello(userName));
@@ -41,7 +41,7 @@ public class IntegrateController {
     @Resource
     private RedissonClient redissonClient;
 
-    @ApiOperation("分布式锁测试")
+    //@ApiOperation("分布式锁测试")
     @PostMapping("/service/lock/getLock")
     public ResponseResult<String> getLock(String lockName) {
         RLock lock = redissonClient.getLock(lockName);

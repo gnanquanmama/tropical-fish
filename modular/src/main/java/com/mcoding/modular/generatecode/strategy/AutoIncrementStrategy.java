@@ -18,7 +18,7 @@ import java.math.BigDecimal;
 public class AutoIncrementStrategy extends GenerateStrategy {
 
     @Override
-    public String generateNextCode(BaseGenerateCode currentCode) {
+    public String generateListCode(BaseGenerateCode currentCode, int quantity) {
         String code = currentCode.getCurrentCode();
         if (StringUtils.isBlank(code)) {
             code = currentCode.getStartCode();

@@ -13,10 +13,8 @@ import java.util.Date;
 @Component
 public class DateIncrementStrategy extends GenerateStrategy {
 
-    private String dateFormatter = "yyyyMMdd";
-
     @Override
-    public String generateNextCode(BaseGenerateCode generateCode) {
+    public String generateListCode(BaseGenerateCode generateCode, int quantity) {
         String currentCode = generateCode.getCurrentCode();
         String maxCode = generateCode.getMaxCode();
         if (StringUtils.isBlank(maxCode)) {
@@ -26,16 +24,16 @@ public class DateIncrementStrategy extends GenerateStrategy {
         int maxLength = maxCode.length();
         String currentDateStr = DateUtil.format(new Date(), "yyyyMMdd");
         if (StringUtils.isBlank(currentCode)) {
-            return currentDateStr + StringUtils.leftPad("1", maxLength, "0");
+            return currentDateStr + StringUtils.leftPad(String.valueOf(quantity), maxLength, "0");
         }
 
         // 日期前缀不存在
         if (StrUtil.indexOf(currentCode, currentDateStr, 0, false) != 0) {
-            return currentDateStr + StringUtils.leftPad("1", maxLength, "0");
+            return currentDateStr + StringUtils.leftPad(String.valueOf(quantity), maxLength, "0");
         }
 
         String currentIncrementStr = currentCode.replaceFirst(currentDateStr, "");
-        BigDecimal incrementStr = new BigDecimal(currentIncrementStr).add(BigDecimal.ONE);
+        BigDecimal incrementStr = new BigDecimal(currentIncrementStr).add(BigDecimal.valueOf(quantity));
 
         BigDecimal maxCodeBd = new BigDecimal(maxCode);
         if (maxCodeBd.compareTo(incrementStr) < 0) {

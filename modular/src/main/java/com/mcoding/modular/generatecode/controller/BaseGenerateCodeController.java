@@ -9,6 +9,7 @@ import com.mcoding.base.core.orm.DslParser;
 import com.mcoding.base.core.rest.ResponseResult;
 import com.mcoding.modular.auth.LoginRequired;
 import com.mcoding.modular.base.user.entity.BaseUser;
+import com.mcoding.modular.activityorder.domain.ActivityOrderBizCodeGenerator;
 import com.mcoding.modular.generatecode.entity.BaseGenerateCode;
 import com.mcoding.modular.generatecode.service.BaseGenerateCodeService;
 import io.swagger.annotations.Api;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * @author wzt on 2020/2/9.
@@ -36,16 +38,20 @@ public class BaseGenerateCodeController {
     @Resource
     private BaseGenerateCodeService baseGenerateCodeService;
 
+    @Resource
+    private ActivityOrderBizCodeGenerator tradeOrderBizCodeGenerator;
+
     @Process(comment = "生成编码")
     @Monitored
     @ApiOperation("生成编码")
-    @PostMapping("/service/generateCode/generateNextCode")
-    public ResponseResult<String> generateNextCode(@ApiIgnore @LoginRequired BaseUser loginUser,
-                                                   @ApiParam("目标记录编码") @RequestParam String targetCode) {
+    @PostMapping("/service/generateCode/generateListCode")
+    public ResponseResult<List<String>> generateListCode(@ApiIgnore @LoginRequired BaseUser loginUser,
+                                                         @ApiParam("目标记录编码") @RequestParam String targetCode,
+                                                         @ApiParam("数量") @RequestParam int quantity) {
 
         log.info("current user is {}", JSON.toJSONString(loginUser));
 
-        return ResponseResult.success(this.baseGenerateCodeService.generateNextCode(targetCode));
+        return ResponseResult.success(this.baseGenerateCodeService.generateBizCodeList(targetCode, quantity));
     }
 
     @Monitored

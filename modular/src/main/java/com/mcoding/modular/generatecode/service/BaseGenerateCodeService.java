@@ -4,9 +4,11 @@ package com.mcoding.modular.generatecode.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.mcoding.modular.generatecode.entity.BaseGenerateCode;
 
+import java.util.List;
+
 /**
  * <p>
- * 大套餐活动 服务类
+ * 业务编码 服务类
  * </p>
  *
  * @author wzt
@@ -15,12 +17,13 @@ import com.mcoding.modular.generatecode.entity.BaseGenerateCode;
 public interface BaseGenerateCodeService extends IService<BaseGenerateCode> {
 
     /**
-     * 获取编码
+     * 生成业务编码列表
      *
      * @param targetCode
+     * @param quantity
      * @return
      */
-    String generateNextCode(String targetCode);
+    List<String> generateBizCodeList(String targetCode, int quantity);
 
 }
 

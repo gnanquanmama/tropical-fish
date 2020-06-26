@@ -6,7 +6,6 @@ package com.mcoding.modular.generatecode.contant;
  */
 public enum TargetCodeEnum {
 
-    BIG_PACKAGE_ACTIVITY_CONFIG("BIG-PACKAGE-ACTIVITY-CONFIG", "大套餐-活动配置编码"),
     BIG_PACKAGE_ACTIVITY_ORDER("BIG-PACKAGE-ACTIVITY-ORDER", "大套餐-活动订单编码");
 
 
