@@ -4,9 +4,9 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.mcoding.base.doc.Process;
-import com.mcoding.base.orm.SmartWrapper;
-import com.mcoding.base.rest.ResponseResult;
+import com.mcoding.base.core.doc.Process;
+import com.mcoding.base.core.orm.DslParser;
+import com.mcoding.base.core.rest.ResponseResult;
 import com.mcoding.modular.auth.LoginRequired;
 import com.mcoding.modular.base.user.entity.BaseUser;
 import com.mcoding.modular.generatecode.entity.BaseGenerateCode;
@@ -56,14 +56,13 @@ public class BaseGenerateCodeController {
 
         log.info("current user is {}", JSON.toJSONString(loginUser));
 
-        SmartWrapper<BaseGenerateCode> smartWrapper = new SmartWrapper<>();
-        smartWrapper.parse(queryObject, BaseGenerateCode.class);
+        DslParser<BaseGenerateCode> dslParser = new DslParser<>();
+        QueryWrapper<BaseGenerateCode> queryWrapper = dslParser.parseToWrapper(queryObject, BaseGenerateCode.class);
 
-        QueryWrapper<BaseGenerateCode> queryWrapper = smartWrapper.getQueryWrapper();
         queryWrapper.lambda()
                 .orderByDesc(BaseGenerateCode::getCreateTime);
 
-        IPage<BaseGenerateCode> page = smartWrapper.generatePage();
+        IPage<BaseGenerateCode> page = dslParser.generatePage();
         this.baseGenerateCodeService.page(page, queryWrapper);
 
         return ResponseResult.success(page);

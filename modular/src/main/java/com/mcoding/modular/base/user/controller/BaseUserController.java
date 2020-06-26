@@ -6,9 +6,9 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.mcoding.base.orm.SmartWrapper;
-import com.mcoding.base.rest.ResponseResult;
-import com.mcoding.common.util.excel.ExcelUtils;
+import com.mcoding.base.core.orm.DslParser;
+import com.mcoding.base.core.rest.ResponseResult;
+import com.mcoding.base.common.util.excel.ExcelUtils;
 import com.mcoding.modular.base.user.entity.BaseUser;
 import com.mcoding.modular.base.user.service.BaseUserService;
 import io.swagger.annotations.Api;
@@ -74,11 +74,10 @@ public class BaseUserController {
     @PostMapping("/service/user/queryByPage")
     public ResponseResult<IPage<BaseUser>> queryByPage(@RequestBody JSONObject queryObject) {
 
-        SmartWrapper<BaseUser> smartWrapper = new SmartWrapper<>();
-        smartWrapper.parse(queryObject, BaseUser.class);
+        DslParser<BaseUser> dslParser = new DslParser<>();
+        QueryWrapper<BaseUser> queryWrapper = dslParser.parseToWrapper(queryObject, BaseUser.class);
 
-        QueryWrapper<BaseUser> queryWrapper = smartWrapper.getQueryWrapper();
-        IPage<BaseUser> page = smartWrapper.generatePage();
+        IPage<BaseUser> page = dslParser.generatePage();
         baseUserService.page(page, queryWrapper);
         return ResponseResult.success(page);
     }
@@ -121,10 +120,10 @@ public class BaseUserController {
                 new String(fileName.getBytes("UTF-8"), "ISO8859-1")));
         httpServletResponse.addHeader("Cache-Control", "no-cache");
 
-        SmartWrapper<BaseUser> smartWrapper = new SmartWrapper<>();
-        smartWrapper.parse(new JSONObject(queryParam), BaseUser.class);
+        DslParser<BaseUser> dslParser = new DslParser<>();
+        dslParser.parseToWrapper(new JSONObject(queryParam), BaseUser.class);
 
-        QueryWrapper<BaseUser> queryWrapper = smartWrapper.getQueryWrapper();
+        QueryWrapper<BaseUser> queryWrapper = dslParser.getQueryWrapper();
         queryWrapper.lambda().orderByDesc(BaseUser::getCreateTime);
         List<BaseUser> activityOrderList = this.baseUserService.list(queryWrapper);
 

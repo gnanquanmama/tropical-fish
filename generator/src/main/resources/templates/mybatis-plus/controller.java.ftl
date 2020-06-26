@@ -13,7 +13,8 @@ import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 
-import com.mcoding.common.util.*;
+import com.mcoding.base.core.orm.DslParser;
+import com.mcoding.base.core.rest.*;
 
 import ${package.Service}.${table.serviceName};
 import ${package.Entity}.${entity};
@@ -67,11 +68,10 @@ public class ${table.controllerName} {
     @PostMapping("/service/${package.ModuleName}/queryByPage")
     public ResponseResult<IPage<${entity}>> queryByPage(@RequestBody JSONObject queryObject) {
 
-         SmartWrapper<${entity}> smartWrapper = new SmartWrapper<>();
-         smartWrapper.parse(queryObject, ${entity}.class);
+         DslParser<${entity}> dslParser = new DslParser<>();
+         QueryWrapper<${entity}> queryWrapper = dslParser.parseToWrapper(queryObject, ${entity}.class);
 
-         QueryWrapper<${entity}> queryWrapper = smartWrapper.getQueryWrapper();
-         IPage<${entity}> page = smartWrapper.generatePage();
+         IPage<${entity}> page = dslParser.generatePage();
          ${table.serviceName ? uncap_first}.page(page, queryWrapper);
          return ResponseResult.success(page);
     }

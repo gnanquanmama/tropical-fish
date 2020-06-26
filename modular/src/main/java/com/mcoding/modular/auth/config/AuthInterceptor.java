@@ -1,8 +1,8 @@
 package com.mcoding.modular.auth.config;
 
 import com.alibaba.fastjson.JSON;
-import com.mcoding.base.rest.ResponseResult;
-import com.mcoding.common.util.rest.ResponseCode;
+import com.mcoding.base.core.rest.ResponseResult;
+import com.mcoding.base.core.rest.ResponseCode;
 import com.mcoding.modular.base.user.entity.BaseUser;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.servlet.HandlerInterceptor;

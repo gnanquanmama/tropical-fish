@@ -1,6 +1,6 @@
 package com.mcoding.modular.auth;
 
-import com.mcoding.common.exception.CommonException;
+import com.mcoding.base.common.exception.CommonException;
 import com.mcoding.modular.auth.util.LoginUserUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.MethodParameter;

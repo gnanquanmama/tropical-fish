@@ -2,9 +2,9 @@ package com.mcoding.modular.generatecode.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.mcoding.base.doc.Step;
-import com.mcoding.base.utils.SpringContextHolder;
-import com.mcoding.common.exception.CommonException;
+import com.mcoding.base.core.doc.Step;
+import com.mcoding.base.core.utils.SpringContextHolder;
+import com.mcoding.base.common.exception.CommonException;
 import com.mcoding.modular.generatecode.dao.BaseGenerateCodeDao;
 import com.mcoding.modular.generatecode.entity.BaseGenerateCode;
 import com.mcoding.modular.generatecode.service.BaseGenerateCodeService;

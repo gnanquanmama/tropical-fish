@@ -2,7 +2,7 @@ package com.mcoding.modular.generatecode.strategy;
 
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.StrUtil;
-import com.mcoding.common.exception.CommonException;
+import com.mcoding.base.common.exception.CommonException;
 import com.mcoding.modular.generatecode.entity.BaseGenerateCode;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
