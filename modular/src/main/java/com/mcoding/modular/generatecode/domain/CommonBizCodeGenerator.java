@@ -11,13 +11,13 @@ import java.util.List;
 import java.util.Queue;
 
 /**
- * 业务编码生成器抽象类
+ * 通用业务编码生成器
  *
  * @author wzt on 2020/6/26.
  * @version 1.0
  */
 @Slf4j
-public abstract class AbstractBizCodeGenerator {
+public class CommonBizCodeGenerator {
 
     private Queue<String> bizCodeQueue = new LinkedList<>();
 
@@ -58,6 +58,16 @@ public abstract class AbstractBizCodeGenerator {
         }
 
         return bizCodeQueue.poll();
+    }
+
+    /**
+     * 批量生成业务编码
+     *
+     * @param quantity 数量
+     * @return
+     */
+    public List<String> generateBizCodeList(int quantity) {
+        return baseGenerateCodeService.generateBizCodeList(targetCode, quantity);
     }
 
 }

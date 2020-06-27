@@ -1,7 +1,6 @@
 package com.mcoding.modular.activityorder;
 
 import com.alibaba.fastjson.JSON;
-import com.mcoding.base.core.doc.Process;
 import com.mcoding.base.core.rest.ResponseResult;
 import com.mcoding.modular.activityorder.domain.ActivityOrderBizCodeGenerator;
 import io.swagger.annotations.Api;
@@ -29,7 +28,6 @@ public class ActivityCodeController {
     @Resource
     private ActivityOrderBizCodeGenerator tradeOrderBizCodeGenerator;
 
-    @Process(comment = "生成订单活动编码")
     @Monitored
     @ApiOperation("生成订单活动编码")
     @PostMapping("/service/activityorder/generateBizCode")
@@ -40,6 +38,18 @@ public class ActivityCodeController {
                 .mapToObj(num -> tradeOrderBizCodeGenerator.generateNextCode())
                 .sorted()
                 .collect(Collectors.toList());
+
+        log.info("biz code List = {}", JSON.toJSONString(codeList));
+
+        return ResponseResult.success(codeList.size());
+    }
+
+    @Monitored
+    @ApiOperation("批量生成订单活动编码")
+    @PostMapping("/service/activityorder/generateBizCodeList")
+    public ResponseResult<Integer> generateBizCodeList(@RequestParam int quantity) {
+
+        List<String> codeList = this.tradeOrderBizCodeGenerator.generateBizCodeList(quantity);
 
         log.info("biz code List = {}", JSON.toJSONString(codeList));
 

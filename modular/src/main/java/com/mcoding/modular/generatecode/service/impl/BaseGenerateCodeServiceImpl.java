@@ -2,7 +2,6 @@ package com.mcoding.modular.generatecode.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.google.common.collect.Lists;
 import com.mcoding.base.common.exception.CommonException;
 import com.mcoding.base.core.utils.SpringContextHolder;
 import com.mcoding.modular.generatecode.dao.BaseGenerateCodeDao;
@@ -15,6 +14,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /**
  * @author wzt on 2020/2/9.
@@ -41,18 +42,19 @@ public class BaseGenerateCodeServiceImpl extends ServiceImpl<BaseGenerateCodeDao
         int constStrLength = lastBizCodeLength - maxCodeLength;
 
         String constStr = StringUtils.substring(lastBizCode, 0, constStrLength);
-        String incrementStr = StringUtils.substring(lastBizCode, constStrLength + 1);
+        String currentMaxIncrNumStr = StringUtils.substring(lastBizCode, constStrLength + 1);
 
-        BigDecimal incrementNum = new BigDecimal(incrementStr);
+        BigDecimal currentMaxIncrNum = new BigDecimal(currentMaxIncrNumStr);
 
-        List<String> codeList = Lists.newArrayList();
+        return IntStream
+                .rangeClosed(0, quantity - 1)
+                .mapToObj(index -> {
+                    BigDecimal previousNum = currentMaxIncrNum.subtract(BigDecimal.valueOf(index));
+                    return constStr + StringUtils.leftPad(previousNum.toString(), maxCodeLength, "0");
+                })
+                .sorted()
+                .collect(Collectors.toList());
 
-        for (int i = 0; i < quantity; i++) {
-            BigDecimal previousNum = incrementNum.subtract(BigDecimal.valueOf(i));
-            codeList.add(constStr + StringUtils.leftPad(previousNum.toString(), maxCodeLength, "0"));
-        }
-
-        return Lists.reverse(codeList);
     }
 
     /**
