@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.common.collect.Lists;
 import com.mcoding.base.common.exception.CommonException;
-import com.mcoding.base.core.doc.Step;
 import com.mcoding.base.core.utils.SpringContextHolder;
 import com.mcoding.modular.generatecode.dao.BaseGenerateCodeDao;
 import com.mcoding.modular.generatecode.entity.BaseGenerateCode;
@@ -24,7 +23,6 @@ import java.util.List;
 @Service
 public class BaseGenerateCodeServiceImpl extends ServiceImpl<BaseGenerateCodeDao, BaseGenerateCode> implements BaseGenerateCodeService {
 
-    @Step(comment = "生成下个编码")
     @Transactional(rollbackFor = Exception.class)
     @Override
     public List<String> generateBizCodeList(String targetCode, int quantity) {
@@ -61,8 +59,8 @@ public class BaseGenerateCodeServiceImpl extends ServiceImpl<BaseGenerateCodeDao
      * 通过乐观锁的方式顺序产生订单编码
      *
      * @param generateCodeId
-     * @param quantity  数量
-     * @param retryTimes 重试次数
+     * @param quantity       数量
+     * @param retryTimes     重试次数
      * @return
      */
     private String generateLastCode(String generateCodeId, int quantity, byte retryTimes) {

@@ -13,7 +13,7 @@ public class ActivityOrderBizCodeGenerator extends AbstractBizCodeGenerator {
 
     public ActivityOrderBizCodeGenerator() {
         this.setTargetCode(TargetCodeEnum.BIG_PACKAGE_ACTIVITY_ORDER.getTargetCode());
-        this.setCacheQuantity(10);
+        this.setCacheQuantity(100);
     }
 
     @Override

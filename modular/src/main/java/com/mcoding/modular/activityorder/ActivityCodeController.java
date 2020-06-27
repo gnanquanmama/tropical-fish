@@ -1,5 +1,6 @@
 package com.mcoding.modular.activityorder;
 
+import com.alibaba.fastjson.JSON;
 import com.mcoding.base.core.doc.Process;
 import com.mcoding.base.core.rest.ResponseResult;
 import com.mcoding.modular.activityorder.domain.ActivityOrderBizCodeGenerator;
@@ -8,9 +9,13 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.javasimon.aop.Monitored;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /**
  * @author wzt on 2020/2/9.
@@ -28,9 +33,17 @@ public class ActivityCodeController {
     @Monitored
     @ApiOperation("生成订单活动编码")
     @PostMapping("/service/activityorder/generateBizCode")
-    public ResponseResult<String> generateBizCode() {
+    public ResponseResult<Integer> generateBizCode(@RequestParam int quantity) {
 
-        return ResponseResult.success(this.tradeOrderBizCodeGenerator.generateNextCode());
+        List<String> codeList = IntStream.rangeClosed(1, quantity)
+                .parallel()
+                .mapToObj(num -> tradeOrderBizCodeGenerator.generateNextCode())
+                .sorted()
+                .collect(Collectors.toList());
+
+        log.info("biz code List = {}", JSON.toJSONString(codeList));
+
+        return ResponseResult.success(codeList.size());
     }
 
 

@@ -3,10 +3,12 @@ package com.mcoding.modular.generatecode.domain;
 import com.google.common.collect.Range;
 import com.mcoding.modular.generatecode.service.BaseGenerateCodeService;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.annotation.Resource;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.LinkedBlockingQueue;
+import java.util.Queue;
 
 /**
  * 业务编码生成器抽象类
@@ -14,9 +16,10 @@ import java.util.concurrent.LinkedBlockingQueue;
  * @author wzt on 2020/6/26.
  * @version 1.0
  */
+@Slf4j
 public abstract class AbstractBizCodeGenerator {
 
-    private LinkedBlockingQueue<String> blockingQueue = new LinkedBlockingQueue<>();
+    private Queue<String> bizCodeQueue = new LinkedList<>();
 
     @Resource
     private BaseGenerateCodeService baseGenerateCodeService;
@@ -37,29 +40,24 @@ public abstract class AbstractBizCodeGenerator {
      *
      * @return
      */
-    public String generateNextCode() {
+    public synchronized String generateNextCode() {
 
-        if (blockingQueue.size() > 0) {
-            return blockingQueue.poll();
+        if (bizCodeQueue.size() > 0) {
+            return bizCodeQueue.poll();
         }
 
-        synchronized (this) {
-            if (blockingQueue.size() > 0) {
-                return blockingQueue.poll();
-            }
-
-            // 缓存数量最大设置为不超过 100
-            if (!Range.closed(1, MAX_CACHE_QUANTITY).contains(cacheQuantity)) {
-                cacheQuantity = 10;
-            }
-
-            List<String> codeList = baseGenerateCodeService.generateBizCodeList(targetCode, cacheQuantity);
-            for (String bizCode : codeList) {
-                blockingQueue.offer(bizCode);
-            }
-
-            return blockingQueue.poll();
+        // 缓存数量最大设置为不超过 100
+        if (!Range.closed(1, MAX_CACHE_QUANTITY).contains(cacheQuantity)) {
+            cacheQuantity = 100;
         }
+
+        List<String> codeList = baseGenerateCodeService.generateBizCodeList(targetCode, cacheQuantity);
+
+        for (String bizCode : codeList) {
+            bizCodeQueue.offer(bizCode);
+        }
+
+        return bizCodeQueue.poll();
     }
 
 }
