@@ -7,6 +7,10 @@ import javax.servlet.*;
 import java.io.IOException;
 
 /**
+ * 方法调用树过滤器
+ *
+ * 用于清空 ThreadLocal 中赋值的信息
+ *
  * @author wzt on 2019/11/15.
  * @version 1.0
  */

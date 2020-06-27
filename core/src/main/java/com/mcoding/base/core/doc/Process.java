@@ -3,6 +3,9 @@ package com.mcoding.base.core.doc;
 import java.lang.annotation.*;
 
 /**
+ * 过程注解
+ * {@link EventTraceAspect}
+ *
  * @author wzt on 2020/4/4.
  * @version 1.0
  */

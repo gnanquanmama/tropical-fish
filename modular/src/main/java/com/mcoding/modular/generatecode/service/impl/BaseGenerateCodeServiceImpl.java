@@ -34,7 +34,7 @@ public class BaseGenerateCodeServiceImpl extends ServiceImpl<BaseGenerateCodeDao
         BaseGenerateCode baseGenerateCode = this.getOne(targetQueryWrapper);
 
         // 批量占用 quantity 个数之后， 返回最后一个业务编码
-        String lastBizCode = this.generateNextCode(baseGenerateCode.getId(), quantity, (byte) 5);
+        String lastBizCode = this.generateLastCode(baseGenerateCode.getId(), quantity, (byte) 5);
 
         String maxCode = baseGenerateCode.getMaxCode();
         int maxCodeLength = maxCode.length();
@@ -65,7 +65,7 @@ public class BaseGenerateCodeServiceImpl extends ServiceImpl<BaseGenerateCodeDao
      * @param retryTimes 重试次数
      * @return
      */
-    private String generateNextCode(String generateCodeId, int quantity, byte retryTimes) {
+    private String generateLastCode(String generateCodeId, int quantity, byte retryTimes) {
         if (retryTimes == 0) {
             throw new CommonException("生成订单编码异常");
         }
@@ -96,6 +96,6 @@ public class BaseGenerateCodeServiceImpl extends ServiceImpl<BaseGenerateCodeDao
             return lastCode;
         }
 
-        return this.generateNextCode(generateCodeId, quantity, (byte) (retryTimes - 1));
+        return this.generateLastCode(generateCodeId, quantity, (byte) (retryTimes - 1));
     }
 }

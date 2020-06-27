@@ -1,7 +1,8 @@
 package com.mcoding.base.core.doc;
 
-import com.mcoding.base.core.utils.ReflectUtils;
+import com.mcoding.base.common.exception.SysException;
 import com.mcoding.base.common.util.constant.MdcConstants;
+import com.mcoding.base.core.utils.ReflectUtils;
 import javassist.*;
 import javassist.bytecode.MethodInfo;
 import org.aspectj.lang.JoinPoint;
@@ -19,12 +20,20 @@ import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * 事件追踪切面
- * 切面有大的性能消耗，禁止在生产环境中打开
+ * <p>
+ * warning : 切面有大的性能消耗，禁止在生产环境中打开
+ * <p>
+ * <p>
+ * {@link Process 过程}
+ * {@link Phase 阶段}
+ * {@link Step 步骤}
+ * <p>
+ * 复杂的业务的一个过程，可以拆分为多个阶段，每个阶段可以有多个步骤。
+ * 在业务的代码链路上，加上注解 @Process, @Phase, @Step , 就可以在运行态下，可以得到一颗方法调用树
  *
  * @author wzt on 2020/4/2.
  * @version 1.0
  */
-
 @Profile({"dev", "test"})
 @Order(1)
 @Aspect
@@ -39,7 +48,7 @@ public class EventTraceAspect {
     }
 
     @Before("tracePointCut()")
-    public void doBefore(JoinPoint joinPoint) throws NotFoundException, ClassNotFoundException {
+    public void doBefore(JoinPoint joinPoint) {
 
         Method method = ReflectUtils.getCurrentMethod(joinPoint);
         int lineNumber = this.getLineNumber(method);
@@ -67,6 +76,10 @@ public class EventTraceAspect {
             EventNodeContainer.put(traceId, rootNode);
             EventNodeStack.push(rootNode);
             return;
+        }
+
+        if (preOrderNode == null) {
+            throw new SysException("请检测 @Process，@Phase，@Step 注解是否放在正确的位置");
         }
 
         long parentId = preOrderNode.getId();

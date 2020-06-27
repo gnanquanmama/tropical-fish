@@ -22,7 +22,7 @@ public class DocumentController {
 
     @ApiOperation("根据traceID查看方法调用树视图")
     @GetMapping("/service/doc/viewInvokeTree")
-    public ResponseResult<EventNode> view(String traceId) {
+    public ResponseResult<EventNode> viewInvokeTree(String traceId) {
         List<EventNode> nodeList = EventNodeContainer.get(traceId);
         EventNode rootNodeReference = TreeBuilder.build(nodeList);
 

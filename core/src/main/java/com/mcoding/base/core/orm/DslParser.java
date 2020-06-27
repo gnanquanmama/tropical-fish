@@ -17,6 +17,8 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
+ * 自定义查询语法 解析器
+ *
  * @author wzt on 2020/2/11.
  * @version 1.0
  */

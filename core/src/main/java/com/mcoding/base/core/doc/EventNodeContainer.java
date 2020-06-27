@@ -10,6 +10,8 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 /**
+ * 事件节点容器
+ *
  * @author wzt on 2020/4/2.
  * @version 1.0
  */

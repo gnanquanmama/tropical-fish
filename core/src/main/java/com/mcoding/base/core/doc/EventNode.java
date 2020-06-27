@@ -7,6 +7,8 @@ import lombok.Data;
 import java.util.List;
 
 /**
+ * 事件节点
+ *
  * @author wzt on 2020/4/2.
  * @version 1.0
  */

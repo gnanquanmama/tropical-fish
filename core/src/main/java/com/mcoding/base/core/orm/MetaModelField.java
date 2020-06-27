@@ -13,6 +13,13 @@ import lombok.Data;
 @AllArgsConstructor
 public class MetaModelField {
 
+    /**
+     * 表字段名称
+     */
     private String tableFieldName;
+
+    /**
+     * 模型字段类型
+     */
     private String modelFieldType;
 }

@@ -1,5 +1,6 @@
 package com.mcoding.modular.generatecode.domain;
 
+import com.google.common.collect.Range;
 import com.mcoding.modular.generatecode.service.BaseGenerateCodeService;
 import lombok.Setter;
 
@@ -15,7 +16,7 @@ import java.util.concurrent.LinkedBlockingQueue;
  */
 public abstract class AbstractBizCodeGenerator {
 
-    private static LinkedBlockingQueue<String> blockingQueue = new LinkedBlockingQueue<>();
+    private LinkedBlockingQueue<String> blockingQueue = new LinkedBlockingQueue<>();
 
     @Resource
     private BaseGenerateCodeService baseGenerateCodeService;
@@ -28,6 +29,8 @@ public abstract class AbstractBizCodeGenerator {
      */
     @Setter
     private int cacheQuantity = 10;
+
+    private static final int MAX_CACHE_QUANTITY = 100;
 
     /**
      * 生成下一个业务编码，默认缓存10个
@@ -46,7 +49,9 @@ public abstract class AbstractBizCodeGenerator {
             }
 
             // 缓存数量最大设置为不超过 100
-            cacheQuantity = cacheQuantity > 100 ? 100 : cacheQuantity;
+            if (!Range.closed(1, MAX_CACHE_QUANTITY).contains(cacheQuantity)) {
+                cacheQuantity = 10;
+            }
 
             List<String> codeList = baseGenerateCodeService.generateBizCodeList(targetCode, cacheQuantity);
             for (String bizCode : codeList) {

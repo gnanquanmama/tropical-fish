@@ -9,6 +9,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * 模型元数据工具类
+ *
  * @author wzt on 2020/2/11.
  * @version 1.0
  */
