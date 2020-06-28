@@ -46,14 +46,12 @@ public class BaseGenerateCodeServiceImpl extends ServiceImpl<BaseGenerateCodeDao
 
         BigDecimal currentMaxIncrNum = new BigDecimal(currentMaxIncrNumStr);
 
-        return IntStream
-                .rangeClosed(0, quantity - 1)
+        return IntStream.rangeClosed(0, quantity - 1)
                 .mapToObj(index -> {
                     BigDecimal previousNum = currentMaxIncrNum.subtract(BigDecimal.valueOf(index));
                     return constStr + StringUtils.leftPad(previousNum.toString(), maxCodeLength, "0");
                 })
-                .sorted()
-                .collect(Collectors.toList());
+                .sorted().collect(Collectors.toList());
 
     }
 
