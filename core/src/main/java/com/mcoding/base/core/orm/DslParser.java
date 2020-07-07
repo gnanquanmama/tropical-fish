@@ -7,14 +7,13 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
-import com.mcoding.base.common.exception.SysException;
 import lombok.Getter;
-import org.apache.commons.lang3.StringUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.joor.Reflect;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 /**
  * 自定义查询语法 解析器
@@ -22,22 +21,15 @@ import java.util.stream.Collectors;
  * @author wzt on 2020/2/11.
  * @version 1.0
  */
+@Slf4j
 @Getter
 public class DslParser<T> {
-
-    private boolean isContainOrderByCommand = false;
 
     private int current = 1;
 
     private int size = 10;
 
     private QueryWrapper<T> queryWrapper = new QueryWrapper<>();
-
-    private Map<String, MetaModelField> modelFieldToTableField = null;
-
-    public static <T> DslParser<T> newWrapper() {
-        return new DslParser<>();
-    }
 
     public IPage<T> generatePage() {
         return new Page<>(this.current, this.size);
@@ -56,168 +48,57 @@ public class DslParser<T> {
         }
 
         // 获取模型字段元信息
-        modelFieldToTableField = MetaModelUtils.generateMetaModelField(clazz);
+        Map<String, MetaModelField> modelFieldToTableField = MetaModelUtils.generateMetaModelField(clazz);
 
-        // 解析查询条件
-        this.parseQueryCondition(queryObject);
+        List<ParseHandler> parseHandlerList = Lists.newArrayList();
+        parseHandlerList.add(new ParseWhereCondHandler(queryObject, modelFieldToTableField));
+        parseHandlerList.add(new ParseOrderByCondHandler(queryObject, modelFieldToTableField));
+        parseHandlerList.add(new ParsePageHandler(queryObject));
 
-        // 解析排序条件
-        this.parseOrderByCondition(queryObject);
+        ParserContext parserContext = new ParserContext();
+        for (ParseHandler parseHandler : parseHandlerList) {
+            parseHandler.apply(parserContext);
+        }
 
-        // 解析分页信息
-        this.parsePage(queryObject);
+        log.info("EVENT=解析请求参数|RESULT={}", JSONObject.toJSONString(parserContext));
+
+        List<WhereCondition> whereCondList = parserContext.getWhereConditionList();
+        this.executeWhereCondOpr(whereCondList);
+
+        Map<String, String> orderByMap = parserContext.getOrderByMap();
+        this.executeOrderByOpr(orderByMap);
+
+        this.current = parserContext.getCurrent();
+        this.size = parserContext.getSize();
 
         return this.queryWrapper;
     }
 
-
-    private void parsePage(JSONObject queryObject) {
-        if (Objects.isNull(queryObject)) {
+    private void executeWhereCondOpr(List<WhereCondition> whereCondList) {
+        if (CollectionUtil.isEmpty(whereCondList)) {
             return;
         }
 
-        Object current = queryObject.get("current");
-        Object size = queryObject.get("size");
-        if (current == null || size == null) {
+        whereCondList.forEach(cond -> {
+            String operation = cond.getOperation();
+            String tableFileName = cond.getTableFieldName();
+            Object value = cond.getValue();
+
+            if ("between".equalsIgnoreCase(operation)) {
+                List valueList = (List) value;
+                Reflect.on(this.queryWrapper).call(operation, tableFileName, valueList.get(0), valueList.get(1));
+            } else {
+
+                Reflect.on(this.queryWrapper).call(operation, tableFileName, value);
+            }
+        });
+    }
+
+    private void executeOrderByOpr(Map<String, String> orderByMap) {
+        if (CollectionUtil.isEmpty(orderByMap)) {
             return;
         }
 
-        this.current = (int) current;
-        this.size = (int) size;
+        orderByMap.forEach((orderByCmd, tableFileName) -> Reflect.on(this.queryWrapper).call(orderByCmd, tableFileName));
     }
-
-    /**
-     * 解析排序条件
-     *
-     * @param queryObject
-     * @return
-     */
-    private void parseOrderByCondition(JSONObject queryObject) {
-
-        Set<String> defineOrderByCommandSet = Sets.newHashSet();
-        defineOrderByCommandSet.add("orderByDesc");
-        defineOrderByCommandSet.add("orderByAsc");
-
-        // 过滤有排序条件的集合
-        Set<Map.Entry<String, Object>> orderByEntrySet = queryObject.entrySet()
-                .stream()
-                .filter(entry -> {
-                    String key = entry.getKey();
-                    boolean isContainsKey = defineOrderByCommandSet.contains(key);
-                    Object columns = queryObject.get(key);
-
-                    return isContainsKey && columns != null && StringUtils.isNotBlank(columns.toString());
-                })
-                .collect(Collectors.toSet());
-
-        if (CollectionUtil.isEmpty(orderByEntrySet)) {
-            return;
-        }
-
-        this.isContainOrderByCommand = true;
-
-        for (Map.Entry<String, Object> entry : orderByEntrySet) {
-            String orderByCommand = entry.getKey();
-            String orderByFields = queryObject.getString(orderByCommand);
-            String[] orderByModelFieldArray = orderByFields.split(",");
-
-            List<String> orderByTableFieldNameList = Lists.newArrayList(orderByModelFieldArray)
-                    .stream()
-                    .map(orderByModelField -> modelFieldToTableField.get(orderByModelField))
-                    .map(MetaModelField::getTableFieldName)
-                    .collect(Collectors.toList());
-
-            for (String orderByTableFieldName : orderByTableFieldNameList) {
-                Reflect.on(queryWrapper).call(orderByCommand, orderByTableFieldName);
-            }
-        }
-    }
-
-    /**
-     * 根据自定义语法解析查询条件
-     *
-     * @param queryObject
-     * @return
-     */
-    private void parseQueryCondition(JSONObject queryObject) {
-
-        // between 条件做特殊处理
-        Set<String> betweenKeySet = queryObject.keySet().stream()
-                .filter(key -> key.contains("_$_between"))
-                .collect(Collectors.toSet());
-
-        for (String key : betweenKeySet) {
-            Object value = queryObject.get(key);
-            if (!(value instanceof List)) {
-                throw new SysException(String.format("%s 的值必须为数组", key));
-            }
-
-            List betweenCondition = (List) value;
-            if (betweenCondition.size() != 2) {
-                throw new SysException(String.format("%s 的值必须为两个", key));
-            }
-
-            String[] fieldNameAndOperation = key.split("_\\$_");
-
-            String modelFieldName = fieldNameAndOperation[0];
-            String operation = fieldNameAndOperation[1];
-
-            MetaModelField metaModelField = modelFieldToTableField.get(modelFieldName);
-            String tableFieldName = metaModelField.getTableFieldName();
-
-            Reflect.on(this.queryWrapper).call(operation, tableFieldName, betweenCondition.get(0), betweenCondition.get(1));
-        }
-
-        // 清空已设置 between 查询条件
-        for (String key : betweenKeySet) {
-            queryObject.remove(key);
-        }
-
-        // 有效的查询条件
-        Set<Map.Entry<String, Object>> validQueryObj = queryObject.entrySet()
-                .stream()
-                .filter(entry -> {
-                    String key = entry.getKey();
-                    Object value = entry.getValue();
-                    // 过滤包含分隔符 _$_ 的查询key
-                    boolean isValidKey = key.contains("_$_");
-                    // 过滤查询值为非空的key
-                    boolean isValidValue = (value != null && StringUtils.isNotBlank(value.toString()));
-                    if (value instanceof List) {
-                        // 如果查询条件是空列表，则该查询条件不生效
-                        if (CollectionUtil.isEmpty((List) value)) {
-                            isValidValue = false;
-                        }
-                    }
-                    return isValidKey && isValidValue;
-                }).collect(Collectors.toSet());
-
-        for (Map.Entry<String, Object> entry : validQueryObj) {
-            String key = entry.getKey();
-            String[] fieldNameAndOperation = key.split("_\\$_");
-
-            String modelFieldName = fieldNameAndOperation[0];
-            String operation = fieldNameAndOperation[1];
-
-            MetaModelField metaModelField = modelFieldToTableField.get(modelFieldName);
-            String tableFieldName = metaModelField.getTableFieldName();
-            String modelFieldType = metaModelField.getModelFieldType();
-
-            Object value = entry.getValue();
-            // 如果定义类型是java.util.Date类型，则把时间戳转换为Date对象
-            if (Date.class.getTypeName().equals(modelFieldType)) {
-                value = new Date((Long) value);
-            }
-
-            if ("in".equals(operation)) {
-                // 如果in的操作类型是字符串，则按照逗号，拆分为数组
-                if (value instanceof String) {
-                    value = ((String) value).split(",");
-                }
-            }
-
-            Reflect.on(this.queryWrapper).call(operation, tableFieldName, value);
-        }
-    }
-
 }
