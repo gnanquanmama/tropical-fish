@@ -28,7 +28,9 @@
         <module>common</module>
         <module>core</module>
         <module>generator</module>
-        <module>modular</module>
+        <module>backend</module>
+        <module>applet</module>
+        <module>base-user</module>
     </modules>
 
     <dependencyManagement>
