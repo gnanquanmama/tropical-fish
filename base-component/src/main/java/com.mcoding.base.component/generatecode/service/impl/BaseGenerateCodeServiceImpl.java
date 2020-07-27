@@ -7,7 +7,7 @@ import com.mcoding.base.core.spring.SpringContextHolder;
 import com.mcoding.modular.biz.generatecode.dao.BaseGenerateCodeDao;
 import com.mcoding.modular.biz.generatecode.entity.BaseGenerateCode;
 import com.mcoding.modular.biz.generatecode.service.BaseGenerateCodeService;
-import com.mcoding.modular.biz.generatecode.strategy.GenerateStrategy;
+import strategy.GenerateStrategy;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

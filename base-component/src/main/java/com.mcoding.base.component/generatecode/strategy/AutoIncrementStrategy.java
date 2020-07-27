@@ -1,4 +1,4 @@
-package com.mcoding.modular.biz.generatecode.strategy;
+package strategy;
 
 import com.mcoding.base.core.common.exception.CommonException;
 import com.mcoding.modular.biz.generatecode.entity.BaseGenerateCode;

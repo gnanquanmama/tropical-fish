@@ -6,8 +6,8 @@ import com.mcoding.applet.auth.service.WechatAuthService;
 import com.mcoding.applet.auth.util.LoginUserUtils;
 import com.mcoding.base.core.rest.ResponseCode;
 import com.mcoding.base.core.rest.ResponseResult;
-import com.mcoding.base.core.utils.SpringContextHolder;
-import lombok.extern.slf4j.Slf4j;
+import com.mcoding.base.core.spring.SpringContextHolder;
+import groovy.util.logging.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.servlet.HandlerInterceptor;
 

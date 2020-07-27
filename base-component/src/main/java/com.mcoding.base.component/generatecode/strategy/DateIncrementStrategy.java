@@ -1,4 +1,4 @@
-package com.mcoding.modular.biz.generatecode.strategy;
+package strategy;
 
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.StrUtil;

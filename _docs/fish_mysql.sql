@@ -40,8 +40,8 @@ CREATE TABLE `base_generate_code`  (
 -- ----------------------------
 -- Records of base_generate_code
 -- ----------------------------
-INSERT INTO `base_generate_code` VALUES ('1', '大套餐-活动配置编码', 'BIG-PACKAGE-ACTIVITY-CONFIG', 'com.mcoding.modular.biz.generatecode.strategy.DateIncrementStrategy', NULL, NULL, '202006180000001', '2020020900001', '9999999', '2020-02-09 12:39:47', '2020-02-09 12:39:51', 194);
-INSERT INTO `base_generate_code` VALUES ('2', '大套餐-活动订单编码', 'BIG-PACKAGE-ACTIVITY-ORDER', 'com.mcoding.modular.biz.generatecode.strategy.DateIncrementStrategy', NULL, NULL, '202006190000002', '2020020900001', '9999999', '2020-02-09 12:39:47', '2020-02-09 12:39:51', 2847);
+INSERT INTO `base_generate_code` VALUES ('1', '大套餐-活动配置编码', 'BIG-PACKAGE-ACTIVITY-CONFIG', 'strategy.DateIncrementStrategy', NULL, NULL, '202006180000001', '2020020900001', '9999999', '2020-02-09 12:39:47', '2020-02-09 12:39:51', 194);
+INSERT INTO `base_generate_code` VALUES ('2', '大套餐-活动订单编码', 'BIG-PACKAGE-ACTIVITY-ORDER', 'strategy.DateIncrementStrategy', NULL, NULL, '202006190000002', '2020020900001', '9999999', '2020-02-09 12:39:47', '2020-02-09 12:39:51', 2847);
 
 SET FOREIGN_KEY_CHECKS = 1;
 

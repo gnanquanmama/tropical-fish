@@ -1,7 +1,6 @@
-package com.mcoding.modular.biz.generatecode.strategy;
+package com.mcoding.base.component.generatecode;
 
-import com.mcoding.BackendApplication;
-import com.mcoding.modular.biz.generatecode.entity.BaseGenerateCode;
+import com.mcoding.base.component.ComponentApplication;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,14 +16,14 @@ import javax.annotation.Resource;
  * @version 1.0
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = BackendApplication.class)
+@SpringBootTest(classes = ComponentApplication.class)
 public class DateIncrementStrategyTest {
 
     @Resource
-    private DateIncrementStrategy dateIncrementStrategy;
+    private strategy.DateIncrementStrategy dateIncrementStrategy;
 
     @MockBean
-    private BaseGenerateCode generateCode;
+    private com.mcoding.modular.biz.generatecode.entity.BaseGenerateCode generateCode;
 
     @Test
     public void test() {
