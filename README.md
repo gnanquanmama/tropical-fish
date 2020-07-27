@@ -61,7 +61,7 @@ Pragmatic 风格的 Java EE 后端开发脚手架。 基于 SpringBoot，技术�
 | modelField  | 模型字段 |
 |    \_$_     |  分隔符  |
 | orderByDesc |   递减   |
-| orderByDesc |   递增   |
+| orderByAsc |   递增   |
 
 >operation 关键字列表
 
