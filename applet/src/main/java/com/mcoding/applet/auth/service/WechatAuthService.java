@@ -1,8 +1,8 @@
 package com.mcoding.applet.auth.service;
 
 
-import com.mcoding.applet.auth.bo.RegisterBo;
-import com.mcoding.applet.auth.bo.UserInfoBo;
+import com.mcoding.applet.auth.business.RegisterBo;
+import com.mcoding.applet.auth.business.UserInfoBo;
 import com.mcoding.applet.auth.controller.dto.CreateUserDto;
 import com.mcoding.base.user.entity.BaseUser;
 

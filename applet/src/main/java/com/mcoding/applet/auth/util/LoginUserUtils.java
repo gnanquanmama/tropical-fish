@@ -1,7 +1,7 @@
 package com.mcoding.applet.auth.util;
 
 
-import com.mcoding.applet.auth.bo.RegisterBo;
+import com.mcoding.applet.auth.business.RegisterBo;
 
 /**
  * @author wzt on 2019/11/13.

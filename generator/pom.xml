@@ -6,7 +6,7 @@
 
     <parent>
         <groupId>com.mcoding</groupId>
-        <artifactId>tropical_fish_api</artifactId>
+        <artifactId>tropical_fish</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 

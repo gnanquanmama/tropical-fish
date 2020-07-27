@@ -1,4 +1,4 @@
-package com.mcoding.applet.auth.bo;
+package com.mcoding.applet.auth.business;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

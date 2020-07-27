@@ -1,4 +1,4 @@
-package com.mcoding.applet.auth.bo;
+package com.mcoding.applet.auth.business;
 
 import lombok.Data;
 

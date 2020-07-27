@@ -3,8 +3,8 @@ package com.mcoding.applet.auth.controller;
 
 import cn.hutool.core.util.IdUtil;
 import com.alibaba.fastjson.JSON;
-import com.mcoding.applet.auth.bo.RegisterBo;
-import com.mcoding.applet.auth.bo.UserInfoBo;
+import com.mcoding.applet.auth.business.RegisterBo;
+import com.mcoding.applet.auth.business.UserInfoBo;
 import com.mcoding.applet.auth.service.BaseUserTokenService;
 import com.mcoding.applet.auth.service.WechatAuthService;
 import com.mcoding.applet.auth.service.WechatService;

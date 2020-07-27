@@ -2,8 +2,8 @@ package com.mcoding.applet.auth.service.impl;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.mcoding.applet.auth.bo.RegisterBo;
-import com.mcoding.applet.auth.bo.UserInfoBo;
+import com.mcoding.applet.auth.business.RegisterBo;
+import com.mcoding.applet.auth.business.UserInfoBo;
 import com.mcoding.applet.auth.service.WechatAuthService;
 import com.mcoding.applet.auth.controller.dto.CreateUserDto;
 import com.mcoding.base.common.util.bean.BeanMapperUtils;

@@ -1,7 +1,7 @@
 package com.mcoding.applet.auth.service;
 
 
-import com.mcoding.applet.auth.bo.UserInfoBo;
+import com.mcoding.applet.auth.business.UserInfoBo;
 
 /**
  * @author wzt on 2019/11/12.

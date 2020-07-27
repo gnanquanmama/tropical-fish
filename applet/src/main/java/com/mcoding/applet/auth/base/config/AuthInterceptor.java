@@ -1,7 +1,7 @@
 package com.mcoding.applet.auth.base.config;
 
 import com.alibaba.fastjson.JSON;
-import com.mcoding.applet.auth.bo.RegisterBo;
+import com.mcoding.applet.auth.business.RegisterBo;
 import com.mcoding.applet.auth.service.WechatAuthService;
 import com.mcoding.applet.auth.util.LoginUserUtils;
 import com.mcoding.base.core.rest.ResponseCode;
