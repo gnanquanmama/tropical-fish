@@ -1,7 +1,7 @@
 package com.mcoding.base.core.cache;
 
-import com.mcoding.base.core.utils.ReflectUtils;
-import com.mcoding.base.common.exception.CommonException;
+import com.mcoding.base.core.common.util.bean.ReflectUtils;
+import com.mcoding.base.core.common.exception.CommonException;
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;

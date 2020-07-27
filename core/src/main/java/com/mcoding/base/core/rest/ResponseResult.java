@@ -1,7 +1,7 @@
 package com.mcoding.base.core.rest;
 
 
-import com.mcoding.base.common.util.constant.MdcConstants;
+import com.mcoding.base.core.common.util.constant.MdcConstants;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;

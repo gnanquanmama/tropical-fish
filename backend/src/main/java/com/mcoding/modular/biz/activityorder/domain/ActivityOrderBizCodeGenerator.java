@@ -1,7 +1,7 @@
 package com.mcoding.modular.biz.activityorder.domain;
 
 import com.google.common.collect.Range;
-import com.mcoding.base.common.exception.BizException;
+import com.mcoding.base.core.common.exception.BizException;
 import com.mcoding.modular.biz.generatecode.contant.TargetCodeEnum;
 import com.mcoding.modular.biz.generatecode.domain.CommonBizCodeGenerator;
 import org.springframework.stereotype.Component;

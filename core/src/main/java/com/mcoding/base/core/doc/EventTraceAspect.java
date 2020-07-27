@@ -1,8 +1,8 @@
 package com.mcoding.base.core.doc;
 
-import com.mcoding.base.common.exception.SysException;
-import com.mcoding.base.common.util.constant.MdcConstants;
-import com.mcoding.base.core.utils.ReflectUtils;
+import com.mcoding.base.core.common.exception.SysException;
+import com.mcoding.base.core.common.util.constant.MdcConstants;
+import com.mcoding.base.core.common.util.bean.ReflectUtils;
 import javassist.*;
 import javassist.bytecode.MethodInfo;
 import org.aspectj.lang.JoinPoint;
