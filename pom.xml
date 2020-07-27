@@ -25,13 +25,13 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>base-core</module>
         <module>base-generator</module>
+        <module>base-common</module>
+        <module>base-core</module>
         <module>base-component</module>
-        <module>base-user</module>
+        <module>biz-user</module>
         <module>backend</module>
         <module>applet</module>
-        <module>base-common</module>
     </modules>
 
     <dependencyManagement>

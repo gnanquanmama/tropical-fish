@@ -1,7 +1,7 @@
-package com.mcoding.modular.base.auth;
+package com.mcoding.modular.auth.support;
 
 import com.mcoding.base.common.exception.CommonException;
-import com.mcoding.modular.base.auth.util.LoginUserUtils;
+import com.mcoding.modular.system.user.entity.SysUser;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;
@@ -26,12 +26,12 @@ public class LoginRequiredArgumentResolver implements HandlerMethodArgumentResol
     public Object resolveArgument(MethodParameter methodParameter, ModelAndViewContainer modelAndViewContainer,
                                   NativeWebRequest nativeWebRequest, WebDataBinderFactory webDataBinderFactory) {
 
-        Object object = LoginUserUtils.currentUser();
-        if (object == null) {
+        SysUser sysUser = LoginUserUtils.currentUser();
+        if (sysUser == null) {
             log.error("接口 {} 非法调用！", methodParameter.getMethod().toString());
             throw new CommonException("请先登录！");
         }
 
-        return object;
+        return sysUser;
     }
 }

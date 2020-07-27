@@ -1,6 +1,6 @@
-package com.mcoding.modular.base.auth.util;
+package com.mcoding.modular.auth.support;
 
-import com.mcoding.base.user.entity.BaseUser;
+import com.mcoding.modular.system.user.entity.SysUser;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -13,17 +13,17 @@ import javax.servlet.http.HttpSession;
  */
 public class LoginUserUtils {
 
-    public static BaseUser currentUser() {
+    public static SysUser currentUser() {
         HttpSession httpSession = getCurrentSession();
-        return (BaseUser) httpSession.getAttribute("currentUser");
+        return (SysUser) httpSession.getAttribute("currentUser");
     }
 
-    public static int getUserId() {
+    public static Long getUserId() {
         return currentUser().getId();
     }
 
 
-    public static void markAsLogin(BaseUser loginUser) {
+    public static void markAsLogin(SysUser loginUser) {
         HttpSession httpSession = getCurrentSession();
         httpSession.setAttribute("currentUser", loginUser);
     }

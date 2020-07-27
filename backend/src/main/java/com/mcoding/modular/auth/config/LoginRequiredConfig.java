@@ -1,6 +1,6 @@
-package com.mcoding.modular.base.auth.config;
+package com.mcoding.modular.auth.config;
 
-import com.mcoding.modular.base.auth.LoginRequiredArgumentResolver;
+import com.mcoding.modular.auth.support.LoginRequiredArgumentResolver;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 

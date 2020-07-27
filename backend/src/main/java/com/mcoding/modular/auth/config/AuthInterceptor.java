@@ -1,9 +1,9 @@
-package com.mcoding.modular.base.auth.config;
+package com.mcoding.modular.auth.config;
 
 import com.alibaba.fastjson.JSON;
-import com.mcoding.base.core.rest.ResponseResult;
 import com.mcoding.base.core.rest.ResponseCode;
-import com.mcoding.base.user.entity.BaseUser;
+import com.mcoding.base.core.rest.ResponseResult;
+import com.mcoding.modular.system.user.entity.SysUser;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.servlet.HandlerInterceptor;
 
@@ -21,7 +21,7 @@ public class AuthInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
-        BaseUser loginUser = (BaseUser) request.getSession().getAttribute("currentUser");
+        SysUser loginUser = (SysUser) request.getSession().getAttribute("currentUser");
 
         if (loginUser == null) {
             this.write(response, ResponseResult.fail(ResponseCode.UNAUTHORIZED, "请先登录"));

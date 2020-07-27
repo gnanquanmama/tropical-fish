@@ -1,4 +1,4 @@
-package com.mcoding.modular.base.auth.config;
+package com.mcoding.modular.auth.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;

@@ -9,12 +9,12 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>base-component</artifactId>
+    <artifactId>biz-component</artifactId>
 
     <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>base-component</name>
+    <name>biz-component</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -27,12 +27,6 @@
         <dependency>
             <groupId>com.mcoding</groupId>
             <artifactId>base-core</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.mcoding</groupId>
-            <artifactId>base-user</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
 
