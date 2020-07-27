@@ -2,7 +2,7 @@ package com.mcoding.modular.base.auth.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.mcoding.base.core.rest.ResponseResult;
-import com.mcoding.base.core.common.util.Assert;
+import com.mcoding.base.common.util.Assert;
 import com.mcoding.modular.base.auth.util.LoginUserUtils;
 import com.mcoding.base.user.entity.BaseUser;
 import com.mcoding.base.user.service.BaseUserService;

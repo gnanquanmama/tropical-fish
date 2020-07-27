@@ -2,9 +2,9 @@ package com.mcoding.base.core.config;
 
 
 import com.mcoding.base.core.rest.ResponseResult;
-import com.mcoding.base.core.common.exception.BizException;
-import com.mcoding.base.core.common.exception.CommonException;
-import com.mcoding.base.core.common.exception.SysException;
+import com.mcoding.base.common.exception.BizException;
+import com.mcoding.base.common.exception.CommonException;
+import com.mcoding.base.common.exception.SysException;
 import com.mcoding.base.core.rest.ResponseCode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

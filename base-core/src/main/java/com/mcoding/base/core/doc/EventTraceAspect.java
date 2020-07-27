@@ -1,8 +1,8 @@
 package com.mcoding.base.core.doc;
 
-import com.mcoding.base.core.common.exception.SysException;
-import com.mcoding.base.core.common.util.constant.MdcConstants;
-import com.mcoding.base.core.common.util.bean.ReflectUtils;
+import com.mcoding.base.common.exception.SysException;
+import com.mcoding.base.common.util.constant.MdcConstants;
+import com.mcoding.base.core.spring.AopUtils;
 import javassist.*;
 import javassist.bytecode.MethodInfo;
 import org.aspectj.lang.JoinPoint;
@@ -50,7 +50,7 @@ public class EventTraceAspect {
     @Before("tracePointCut()")
     public void doBefore(JoinPoint joinPoint) {
 
-        Method method = ReflectUtils.getCurrentMethod(joinPoint);
+        Method method = AopUtils.getCurrentMethod(joinPoint);
         int lineNumber = this.getLineNumber(method);
         String methodName = method.getDeclaringClass().getSimpleName() + "." + method.getName();
 

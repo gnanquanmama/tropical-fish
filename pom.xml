@@ -31,6 +31,7 @@
         <module>base-user</module>
         <module>backend</module>
         <module>applet</module>
+        <module>base-common</module>
     </modules>
 
     <dependencyManagement>

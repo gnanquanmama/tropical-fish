@@ -2,7 +2,7 @@ package com.mcoding.base.core.orm;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.alibaba.fastjson.JSONObject;
-import com.mcoding.base.core.common.exception.SysException;
+import com.mcoding.base.common.exception.SysException;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 

@@ -1,7 +1,7 @@
 package com.mcoding.base.core.cache;
 
-import com.mcoding.base.core.common.util.bean.ReflectUtils;
-import com.mcoding.base.core.common.exception.CommonException;
+import com.mcoding.base.core.spring.AopUtils;
+import com.mcoding.base.common.exception.CommonException;
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -44,7 +44,7 @@ public class RCacheAspect {
     public Object cacheableDoAround(ProceedingJoinPoint point) throws Throwable {
         Object[] args = point.getArgs();
 
-        Method currentMethod = ReflectUtils.getCurrentMethod(point);
+        Method currentMethod = AopUtils.getCurrentMethod(point);
         RCacheable rCacheable = currentMethod.getAnnotation(RCacheable.class);
         String key = rCacheable.key();
 
@@ -105,7 +105,7 @@ public class RCacheAspect {
 
     @Before(value = "cacheEvictPointCut()")
     public void cacheEvitDoBefore(JoinPoint joinPoint) {
-        RCacheEvict rCacheEvict = ReflectUtils.getCurrentMethod(joinPoint).getAnnotation(RCacheEvict.class);
+        RCacheEvict rCacheEvict = AopUtils.getCurrentMethod(joinPoint).getAnnotation(RCacheEvict.class);
         String cacheName = rCacheEvict.key();
 
         RBucket<Object> rBucket = redissonClient.getBucket(cacheName);

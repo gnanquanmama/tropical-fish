@@ -2,7 +2,7 @@ package com.mcoding.modular.biz.generatecode.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.mcoding.base.core.common.exception.CommonException;
+import com.mcoding.base.common.exception.CommonException;
 import com.mcoding.base.core.spring.SpringContextHolder;
 import com.mcoding.modular.biz.generatecode.dao.BaseGenerateCodeDao;
 import com.mcoding.modular.biz.generatecode.entity.BaseGenerateCode;
