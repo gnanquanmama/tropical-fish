@@ -44,7 +44,7 @@
     </dependencies>
 
     <build>
-        <finalName>backend-api</finalName>
+        <finalName>applet</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
