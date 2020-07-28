@@ -14,15 +14,6 @@ Pragmatic 风格的 Java EE 后端开发脚手架。 基于 SpringBoot，技术�
 
 5. 自定义注解 @LoginRequired 注解，可以自动装配当前操作人实体。该注解的意义在于，消除在每个 controller 方法需要手动获取当前操作人的重复性的代码。
 
-   > ```
-   > @PostMapping("/service/generateCode/generateNextCode")
-   > public ResponseResult<String> generateNextCode(
-   > 			@ApiIgnore @LoginRequired LoginUser loginUser, String targetCode) {
-   > 	log.info("current user is {}", JSON.toJSONString(loginUser));
-   > 	return ResponseResult.success();
-   > }
-   > ```
-
 6. 自定义 service 方法级别文档生成规则和实现。某种程度上缓解研发人员不爱写文档，又抱怨接手新项目没有文档的尴尬处境。 在**方法调用树示例** 有相应的 json 视图可以看到调用树的数据结构。
 
    > 参考 <从码农到工匠> 控制代码复杂度的做法。复杂的业务的流程可拆分为多个阶段，每个阶段下有多个子步骤。  自定义注解，过程 @Process， 阶段 @Phase，步骤 @Step。在业务方法的阶段和步骤上加上相应的注解，即可根据请求返回的 TraceId 获取 service 级别的方法调用树。  
