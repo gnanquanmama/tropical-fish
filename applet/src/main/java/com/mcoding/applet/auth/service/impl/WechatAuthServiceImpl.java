@@ -88,7 +88,7 @@ public class WechatAuthServiceImpl implements WechatAuthService {
 		return registerBo;
 	}
 
-	@RCacheable(key = "dmt::miniprogram::token", secKey = "#token", ttl = 1)
+	@RCacheable(key = "dmt::miniprogram::token", secKey = "#token")
 	@Override
 	public RegisterBo getUserToken(String token) {
 		return null;
