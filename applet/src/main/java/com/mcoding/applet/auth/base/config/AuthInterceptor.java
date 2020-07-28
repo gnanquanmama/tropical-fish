@@ -31,7 +31,7 @@ public class AuthInterceptor implements HandlerInterceptor {
         }
 
         WechatAuthService wechatAuthService = SpringContextHolder.getOneBean(WechatAuthService.class);
-        RegisterBo registerBo = wechatAuthService.getRegisterByToken(token);
+        RegisterBo registerBo = wechatAuthService.getUserToken(token);
         if (registerBo == null) {
             this.write(response, ResponseResult.fail(ResponseCode.UNAUTHORIZED, "token已失效,请重新授权登录认证"));
             return false;

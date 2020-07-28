@@ -10,10 +10,17 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.METHOD})
 public @interface RCacheEvict {
-    /**
-     * 缓存名称
-     * @return
-     */
-    String key();
+	/**
+	 * 一级缓存名称
+	 * @return
+	 */
+	String key();
+
+	/**
+	 * 二级key,使用spel语法
+	 *
+	 * @return
+	 */
+	String secKey() default "";
 
 }
