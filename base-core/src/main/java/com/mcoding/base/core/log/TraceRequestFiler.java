@@ -26,7 +26,7 @@ public class TraceRequestFiler implements Filter {
         MDC.put(MdcConstants.TRACE_ID, traceId);
         try {
             HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
-            log.info("请求REQUEST_URL={}|METHOD={}", httpServletRequest.getRequestURL(), httpServletRequest.getMethod());
+            log.info("REQUEST_URL={}|METHOD={}", httpServletRequest.getRequestURL(), httpServletRequest.getMethod());
 
             filterChain.doFilter(servletRequest, servletResponse);
         } finally {
