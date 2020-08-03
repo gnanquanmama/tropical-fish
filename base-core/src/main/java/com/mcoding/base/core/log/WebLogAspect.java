@@ -1,6 +1,7 @@
 package com.mcoding.base.core.log;
 
 import com.alibaba.fastjson.JSON;
+import com.google.gson.Gson;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
@@ -13,8 +14,13 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author wzt on 2020/7/31.
@@ -43,17 +49,23 @@ public class WebLogAspect {
         String className = joinPoint.getSignature().getDeclaringTypeName() + "." + joinPoint.getSignature().getName();
         String ip = request.getRemoteAddr();
 
-        String contentType = request.getContentType();
-        String requestArgs = "";
-        if (contentType != null && contentType.contains("multipart/form-data")) {
-            requestArgs = "content type 为 multipart/form-data, 不解析参数";
-        } else {
-            try {
-                requestArgs = JSON.toJSONString(joinPoint.getArgs());
-            } catch (Exception e) {
-                e.printStackTrace();
-                log.error("http请求参数序列化异常{}", e.getMessage());
+        String requestArgs = "{}";
+        try {
+            Object[] args = joinPoint.getArgs();
+            if (args != null) {
+                List<Object> requestArgList = Arrays.stream(args)
+                        .filter(arg -> {
+                            boolean isServletRequest = arg instanceof ServletRequest;
+                            boolean isServletResponse = arg instanceof ServletResponse;
+
+                            return !isServletRequest && !isServletResponse;
+                        }).collect(Collectors.toList()) ;
+                requestArgs = JSON.toJSONString(requestArgList);
             }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.error("http请求参数序列化异常{}", e.getMessage());
         }
 
         log.info("EVENT=打印请求日志|URL={}|Class-Method={}|METHOD-DESC={}|IP = {}|REQUEST_ARGS = {}",

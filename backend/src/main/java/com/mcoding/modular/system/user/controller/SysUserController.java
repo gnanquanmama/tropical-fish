@@ -30,7 +30,7 @@ import io.swagger.annotations.ApiOperation;
  * @author wzt
  * @since 2020-07-27
  */
-@Api(tags = "管理员服务")
+@Api(tags = "系统-管理员服务")
 @RestController
 public class SysUserController {
 

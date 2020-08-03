@@ -1,20 +1,25 @@
-package com.mcoding.base.user.controller;
+package com.mcoding.modular.biz.user.controller;
 
 
 import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.lang.UUID;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.mcoding.base.common.exception.SysException;
+import com.mcoding.base.common.util.Assert;
+import com.mcoding.base.common.util.excel.ExcelUtils;
 import com.mcoding.base.core.orm.DslParser;
 import com.mcoding.base.core.rest.ResponseResult;
-import com.mcoding.base.common.util.excel.ExcelUtils;
 import com.mcoding.base.user.entity.BaseUser;
 import com.mcoding.base.user.service.BaseUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import jxl.write.WritableWorkbook;
 import lombok.extern.slf4j.Slf4j;
+import org.redisson.api.RedissonClient;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -25,20 +30,20 @@ import java.io.OutputStream;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 /**
  * <p>
- * 基础用户
+ * 业务用户
  * </p>
  *
  * @author wzt
  * @since 2020-06-21
  */
 @Slf4j
-@Api(tags = "基础-用户服务")
+@Api(tags = "业务-用户服务")
 @RestController
-public class BaseUserController {
+public class BizUserController {
 
     @Resource
     private BaseUserService baseUserService;
@@ -104,13 +109,44 @@ public class BaseUserController {
         return null;
     }
 
+    @ApiOperation("导入")
+    @PostMapping(value = "/service/user/importByExcel")
+    @ResponseBody
+    public ResponseResult<String> importByExcel(@RequestParam("file") MultipartFile file) throws Exception {
 
-    @ApiOperation("导出")
-    @GetMapping(value = "/service/user/exportByExcel")
+        List<BaseUser> userList = ExcelUtils.importExcelDataToList(
+                file.getInputStream(), 0, 1, 0, BaseUser.class);
+
+        log.info("file name is {} , import data is {}", file.getOriginalFilename(), JSON.toJSONString(userList));
+
+        return ResponseResult.success();
+    }
+
+    @Resource
+    private RedissonClient redissonClient;
+
+    @ApiOperation("EXCEL导出，请求参数换取导出标识ID")
+    @PostMapping(value = "/service/user/exchangeExportExcelId")
+    @ResponseBody
+    public ResponseResult<String> exchangeExportExcelId(@RequestBody JSONObject queryObject) {
+
+        String exportExcelId = UUID.randomUUID().toString(true);
+        redissonClient.getBucket("user::export::excel::" + exportExcelId)
+                .set(queryObject, 30, TimeUnit.SECONDS);
+
+        return ResponseResult.success(exportExcelId);
+    }
+
+
+    @ApiOperation("EXCEL导出")
+    @GetMapping(value = "/service/user/exportByExcel/{exportExcelId}")
     @ResponseBody
     public ResponseResult<String> exportByExcel(
-            @RequestParam(required = false) Map<String, Object> queryParam,
+            @ApiParam("导出excel标识") @PathVariable("exportExcelId") String exportExcelId,
             HttpServletResponse httpServletResponse) throws Exception {
+
+        JSONObject jsonObject = (JSONObject) this.redissonClient.getBucket("user::export::excel::" + exportExcelId).get();
+        Assert.isNotNull(jsonObject, "导出excel标识ID已过期或者不不存在");
 
         String fileName = "用户明细" + DateUtil.format(new Date(), "yyyyMMddHHmmss");
 
@@ -120,8 +156,9 @@ public class BaseUserController {
                 new String(fileName.getBytes("UTF-8"), "ISO8859-1")));
         httpServletResponse.addHeader("Cache-Control", "no-cache");
 
+
         DslParser<BaseUser> dslParser = new DslParser<>();
-        dslParser.parseToWrapper(new JSONObject(queryParam), BaseUser.class);
+        dslParser.parseToWrapper(jsonObject, BaseUser.class);
 
         QueryWrapper<BaseUser> queryWrapper = dslParser.getQueryWrapper();
         queryWrapper.lambda().orderByDesc(BaseUser::getCreateTime);
@@ -136,19 +173,6 @@ public class BaseUserController {
         writableWorkbook.close();
 
         return null;
-    }
-
-    @ApiOperation("导入")
-    @PostMapping(value = "/service/user/importByExcel")
-    @ResponseBody
-    public ResponseResult<String> importByExcel(@RequestParam("file") MultipartFile file) throws Exception {
-
-        List<BaseUser> userList = ExcelUtils.importExcelDataToList(
-                file.getInputStream(), 0, 1, 0, BaseUser.class);
-
-        log.info("file name is {} , import data is {}", file.getOriginalFilename(), JSON.toJSONString(userList));
-
-        return ResponseResult.success();
     }
 
 
