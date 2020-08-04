@@ -11,6 +11,7 @@ import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.joor.Reflect;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -86,7 +87,10 @@ public class DslParser<T> {
 
             if ("between".equalsIgnoreCase(operation)) {
                 List valueList = (List) value;
-                Reflect.on(this.queryWrapper).call(operation, tableFileName, valueList.get(0), valueList.get(1));
+                Date startTime = new Date((Long) valueList.get(0));
+                Date endTime = new Date((Long) valueList.get(1));
+
+                Reflect.on(this.queryWrapper).call(operation, tableFileName, startTime, endTime);
             } else {
 
                 Reflect.on(this.queryWrapper).call(operation, tableFileName, value);
