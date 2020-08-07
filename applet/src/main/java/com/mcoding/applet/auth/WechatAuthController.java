@@ -1,4 +1,4 @@
-package com.mcoding.applet.auth.controller;
+package com.mcoding.applet.auth;
 
 
 import cn.hutool.core.util.IdUtil;
@@ -7,11 +7,11 @@ import com.mcoding.applet.auth.business.RegisterBo;
 import com.mcoding.applet.auth.business.UserInfoBo;
 import com.mcoding.applet.auth.service.BaseUserTokenService;
 import com.mcoding.applet.auth.service.WechatAuthService;
-import com.mcoding.applet.auth.service.WechatService;
+import com.mcoding.applet.auth.manager.WechatClient;
 import com.mcoding.applet.auth.util.LoginUserUtils;
-import com.mcoding.applet.auth.controller.dto.CreateUserDto;
-import com.mcoding.applet.auth.controller.dto.PhoneNumberDto;
-import com.mcoding.applet.auth.controller.dto.RegisterDto;
+import com.mcoding.applet.auth.dto.CreateUserDto;
+import com.mcoding.applet.auth.dto.PhoneNumberDto;
+import com.mcoding.applet.auth.dto.RegisterDto;
 import com.mcoding.base.common.util.bean.BeanMapperUtils;
 import com.mcoding.base.common.util.wechat.WXBizDataCrypt;
 import com.mcoding.base.common.util.wechat.WxUserInfo;
@@ -39,13 +39,13 @@ import javax.validation.Valid;
  * @since 2020-03-25
  */
 @Slf4j
-@Api(tags = "业务基础-授权服务")
+@Api(tags = "业务基础-微信授权服务")
 @RestController
-public class UserAuthController {
+public class WechatAuthController {
 
 
     @Resource
-    private WechatService wechatService;
+    private WechatClient wechatClient;
 
     @Resource
     private WechatAuthService wechatAuthService;
@@ -78,7 +78,7 @@ public class UserAuthController {
         log.info("EVENT=小程序用户注册|USER_INFO={}", JSON.toJSONString(createUserDto));
 
         String jsCode = createUserDto.getJsCode();
-        UserInfoBo userInfoBo = this.wechatService.getUserInfoByCode(jsCode);
+        UserInfoBo userInfoBo = this.wechatClient.getUserInfoByCode(jsCode);
         String openId = userInfoBo.getOpenId();
 
         BaseUser persistenceUser = this.baseUserService.getUserByOpenId(openId);
@@ -108,7 +108,7 @@ public class UserAuthController {
 
         log.info("EVENT=小程序用户登录|JS_CODE={}", jsCode);
 
-        UserInfoBo userInfoBo = this.wechatService.getUserInfoByCode(jsCode);
+        UserInfoBo userInfoBo = this.wechatClient.getUserInfoByCode(jsCode);
         String openId = userInfoBo.getOpenId();
 
         BaseUser persistenceUser = this.baseUserService.getUserByOpenId(openId);

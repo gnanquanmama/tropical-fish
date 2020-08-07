@@ -1,4 +1,4 @@
-package com.mcoding.applet.auth.service.impl;
+package com.mcoding.applet.auth.manager.impl;
 
 
 import com.alibaba.fastjson.JSON;
@@ -7,7 +7,7 @@ import com.google.common.collect.Maps;
 import com.mcoding.applet.auth.business.UserInfoBo;
 import com.mcoding.applet.auth.business.resp.AccessTokenRespEntity;
 import com.mcoding.applet.auth.business.resp.JsCode2SessionRespEntity;
-import com.mcoding.applet.auth.service.WechatService;
+import com.mcoding.applet.auth.manager.WechatClient;
 import com.mcoding.base.common.exception.CommonException;
 import com.mcoding.base.core.cache.RCacheEvict;
 import com.mcoding.base.core.cache.RCacheable;
@@ -29,7 +29,7 @@ import java.util.concurrent.TimeUnit;
  */
 @Slf4j
 @Service
-public class WechatServiceImpl implements WechatService {
+public class WechatClientImpl implements WechatClient {
 
     @Resource
     private RestTemplate restTemplate;

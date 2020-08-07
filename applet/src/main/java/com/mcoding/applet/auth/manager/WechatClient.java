@@ -1,4 +1,4 @@
-package com.mcoding.applet.auth.service;
+package com.mcoding.applet.auth.manager;
 
 
 import com.mcoding.applet.auth.business.UserInfoBo;
@@ -7,7 +7,7 @@ import com.mcoding.applet.auth.business.UserInfoBo;
  * @author wzt on 2019/11/12.
  * @version 1.0
  */
-public interface WechatService {
+public interface WechatClient {
 
     /**
      * 根据jsCode获取用户信息

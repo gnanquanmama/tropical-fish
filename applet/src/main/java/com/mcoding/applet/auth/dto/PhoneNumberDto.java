@@ -1,4 +1,4 @@
-package com.mcoding.applet.auth.controller.dto;
+package com.mcoding.applet.auth.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
