@@ -71,7 +71,6 @@ public class WechatAuthServiceImpl implements WechatAuthService {
 		return registerBo;
 	}
 
-	@Phase(comment = "用户登录DMT系统")
 	@RCacheable(key = "dmt::miniprogram::token", secKey = "#token", ttl = 2, timeUnit = TimeUnit.HOURS)
 	@Override
 	public RegisterBo login(String openId, String token) {

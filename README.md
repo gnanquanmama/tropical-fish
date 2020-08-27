@@ -1,6 +1,6 @@
 # Tropical Fish
 
-Pragmatic 风格的 Java EE 后端开发脚手架。 基于 SpringBoot，技术选型采用主流的技术框架（Mybatis-Plus，Redisson，Xxl-job，Dubbo，Swagger）。开箱即用，提高研发效能。
+Pragmatic 风格的 Java EE 后端开发脚手架。 基于 SpringBoot，技术选型采用主流的技术框架（Mybatis-Plus，Redisson，Xxl-job，Swagger）。开箱即用，提高研发效能。
 
 多家公司线上产品使用了该脚手架。国内某知名日化企业，已把该脚手架作为基础脚手架，支撑数字化产品的研发。
 

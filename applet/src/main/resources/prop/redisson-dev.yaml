@@ -1,6 +1,6 @@
 singleServerConfig:
-  address: "redis://cacheuat02.liby.com.cn:6381"
-  password: abc123
+  address: "redis://47.95.192.230:6379"
+  password: redis#123
   clientName: fish_api_dev
   database: 0
   idleConnectionTimeout: 10000
