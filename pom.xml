@@ -28,7 +28,7 @@
         <module>base-generator</module>
         <module>base-common</module>
         <module>base-core</module>
-        <module>base-component</module>
+        <module>biz-component</module>
         <module>biz-user</module>
         <module>backend</module>
         <module>applet</module>

@@ -33,8 +33,8 @@ public class AppAuthController {
     @Monitored
     @ApiOperation(value = "登录")
     @PostMapping("/service/auth/login")
-    public ResponseResult<SysUser> login(@ApiParam("名称") @RequestParam String name,
-                                         @ApiParam("密码") @RequestParam String password) {
+    public ResponseResult<SysUser> login(@ApiParam("名称") @RequestParam(defaultValue = "admin") String name,
+                                         @ApiParam("密码") @RequestParam(defaultValue = "123456") String password) {
 
         QueryWrapper<SysUser> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda()
