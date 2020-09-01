@@ -5,8 +5,11 @@ import cn.hutool.core.collection.CollectionUtil;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
+import com.baomidou.mybatisplus.core.toolkit.support.SerializedLambda;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.collect.Lists;
+import com.mcoding.base.common.exception.CommonException;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.joor.Reflect;
@@ -30,20 +33,21 @@ public class DslParser<T> {
 
     private int size = 10;
 
+    private JSONObject queryObject;
+
     private QueryWrapper<T> queryWrapper = new QueryWrapper<>();
 
-    public IPage<T> generatePage() {
-        return new Page<>(this.current, this.size);
+    public DslParser(JSONObject queryObject) {
+        this.queryObject = queryObject;
     }
 
     /**
      * 解析JSON查询字符串, 构建QueryWrapper对象
      *
-     * @param queryObject
      * @param clazz
      * @return
      */
-    public QueryWrapper<T> parseToWrapper(JSONObject queryObject, Class<T> clazz) {
+    public QueryWrapper<T> parseToWrapper(Class<T> clazz) {
         if (Objects.isNull(queryObject) || CollectionUtil.isEmpty(queryObject.keySet())) {
             return queryWrapper;
         }
@@ -103,6 +107,56 @@ public class DslParser<T> {
             return;
         }
 
-        orderByMap.forEach((orderByCmd, tableFileName) -> Reflect.on(this.queryWrapper).call(orderByCmd, tableFileName));
+        orderByMap.forEach(
+                (orderByCmd, tableFileName) ->
+                        Reflect.on(this.queryWrapper).call(orderByCmd, tableFileName));
     }
+
+    public IPage<T> generatePage() {
+        return new Page<>(this.current, this.size);
+    }
+
+    /**
+     * 首字母转小写
+     *
+     * @param str
+     * @return
+     */
+    private String toLowerCaseFirstOne(String str) {
+        if (Character.isLowerCase(str.charAt(0)))
+            return str;
+        else
+            return (new StringBuilder())
+                    .append(Character.toLowerCase(str.charAt(0)))
+                    .append(str.substring(1))
+                    .toString();
+    }
+
+    /**
+     * 获取查询条件的值
+     *
+     * @param column
+     * @param oprEnum
+     * @return
+     */
+    public <R> R getPropValue(SFunction<T, ?> column, OprEnum oprEnum, Class<R> clazz) {
+
+        SerializedLambda lambda = SerializedLambda.resolve(column);
+        String methodName = lambda.getImplMethodName();
+
+        String prefix = null;
+        if (methodName.startsWith("get")) {
+            prefix = "get";
+        }
+        if (methodName.startsWith("is")) {
+            prefix = "is";
+        }
+        if (prefix == null) {
+            throw new CommonException("无效的getter方法: " + methodName);
+        }
+
+        String fieldName = this.toLowerCaseFirstOne(methodName.replace(prefix, ""));
+        return (R) queryObject.get(fieldName + "_$_" + oprEnum.getValue());
+    }
+
 }

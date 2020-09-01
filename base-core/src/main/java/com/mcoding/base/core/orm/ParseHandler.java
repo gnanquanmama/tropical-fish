@@ -8,7 +8,6 @@ package com.mcoding.base.core.orm;
  */
 public interface ParseHandler {
 
-
     /**
      * apply
      *

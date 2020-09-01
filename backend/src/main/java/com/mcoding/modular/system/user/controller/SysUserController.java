@@ -68,8 +68,8 @@ public class SysUserController {
     @PostMapping("/service/sysuser/queryByPage")
     public ResponseResult<IPage<SysUser>> queryByPage(@RequestBody JSONObject queryObject) {
 
-         DslParser<SysUser> dslParser = new DslParser<>();
-         QueryWrapper<SysUser> queryWrapper = dslParser.parseToWrapper(queryObject, SysUser.class);
+         DslParser<SysUser> dslParser = new DslParser<>(queryObject);
+         QueryWrapper<SysUser> queryWrapper = dslParser.parseToWrapper(SysUser.class);
 
          IPage<SysUser> page = dslParser.generatePage();
          sysUserService.page(page, queryWrapper);

@@ -11,6 +11,7 @@ import com.mcoding.base.common.exception.SysException;
 import com.mcoding.base.common.util.Assert;
 import com.mcoding.base.common.util.excel.ExcelUtils;
 import com.mcoding.base.core.orm.DslParser;
+import com.mcoding.base.core.orm.OprEnum;
 import com.mcoding.base.core.rest.ResponseResult;
 import com.mcoding.base.user.entity.BaseUser;
 import com.mcoding.base.user.service.BaseUserService;
@@ -79,8 +80,8 @@ public class BizUserController {
     @PostMapping("/service/user/queryByPage")
     public ResponseResult<IPage<BaseUser>> queryByPage(@RequestBody JSONObject queryObject) {
 
-        DslParser<BaseUser> dslParser = new DslParser<>();
-        QueryWrapper<BaseUser> queryWrapper = dslParser.parseToWrapper(queryObject, BaseUser.class);
+        DslParser<BaseUser> dslParser = new DslParser<>(queryObject);
+        QueryWrapper<BaseUser> queryWrapper = dslParser.parseToWrapper(BaseUser.class);
 
         IPage<BaseUser> page = dslParser.generatePage();
         baseUserService.page(page, queryWrapper);
@@ -157,8 +158,8 @@ public class BizUserController {
         httpServletResponse.addHeader("Cache-Control", "no-cache");
 
 
-        DslParser<BaseUser> dslParser = new DslParser<>();
-        dslParser.parseToWrapper(jsonObject, BaseUser.class);
+        DslParser<BaseUser> dslParser = new DslParser<>(jsonObject);
+        dslParser.parseToWrapper(BaseUser.class);
 
         QueryWrapper<BaseUser> queryWrapper = dslParser.getQueryWrapper();
         queryWrapper.lambda().orderByDesc(BaseUser::getCreateTime);
