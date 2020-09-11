@@ -10,7 +10,7 @@
     </parent>
 
     <artifactId>base-core</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>${parent.version}</version>
     <packaging>jar</packaging>
 
     <name>base-core</name>
@@ -21,11 +21,9 @@
     </properties>
 
     <dependencies>
-
         <dependency>
             <groupId>com.mcoding</groupId>
             <artifactId>base-common</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
         </dependency>
 
         <!-- spring 框架-->

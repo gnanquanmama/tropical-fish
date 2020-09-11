@@ -1,8 +1,8 @@
-package com.mcoding.modular.biz.generatecode.dao;
+package com.mcoding.base.component.generatecode.dao;
 
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.mcoding.modular.biz.generatecode.entity.BaseGenerateCode;
+import com.mcoding.base.component.generatecode.entity.BaseGenerateCode;
 
 /**
  * <p>

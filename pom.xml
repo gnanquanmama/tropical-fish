@@ -4,6 +4,11 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+    <groupId>com.mcoding</groupId>
+    <artifactId>tropical_fish</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
@@ -15,14 +20,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
-        <brave.version>5.4.2</brave.version>
-        <zipkin-reporter.version>2.7.9</zipkin-reporter.version>
+        <parent.version>0.0.1-SNAPSHOT</parent.version>
     </properties>
-
-    <groupId>com.mcoding</groupId>
-    <artifactId>tropical_fish</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <packaging>pom</packaging>
 
     <modules>
         <module>base-generator</module>
@@ -37,15 +36,28 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>io.zipkin.brave</groupId>
-                <artifactId>brave-bom</artifactId>
-                <version>${brave.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
+                <groupId>com.mcoding</groupId>
+                <artifactId>base-common</artifactId>
+                <version>${parent.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.mcoding</groupId>
+                <artifactId>base-core</artifactId>
+                <version>${parent.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.mcoding</groupId>
+                <artifactId>biz-component</artifactId>
+                <version>${parent.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.mcoding</groupId>
+                <artifactId>biz-user</artifactId>
+                <version>${parent.version}</version>
             </dependency>
         </dependencies>
-    </dependencyManagement>
 
+    </dependencyManagement>
 
     <build>
         <plugins>

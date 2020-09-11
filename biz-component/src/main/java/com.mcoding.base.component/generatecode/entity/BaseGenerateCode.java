@@ -1,4 +1,4 @@
-package com.mcoding.modular.biz.generatecode.entity;
+package com.mcoding.base.component.generatecode.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
 import lombok.Data;

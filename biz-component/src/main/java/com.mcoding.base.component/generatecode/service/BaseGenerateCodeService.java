@@ -1,8 +1,9 @@
-package com.mcoding.modular.biz.generatecode.service;
+package com.mcoding.base.component.generatecode.service;
+
 
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.mcoding.modular.biz.generatecode.entity.BaseGenerateCode;
+import com.mcoding.base.component.generatecode.entity.BaseGenerateCode;
 
 import java.util.List;
 

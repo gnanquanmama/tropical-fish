@@ -3,14 +3,14 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>tropical_fish</artifactId>
         <groupId>com.mcoding</groupId>
+        <artifactId>tropical_fish</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>applet</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>${parent.version}</version>
     <packaging>jar</packaging>
 
     <name>applet</name>
@@ -26,15 +26,15 @@
         <dependency>
             <groupId>com.mcoding</groupId>
             <artifactId>base-core</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
         </dependency>
-
+        <dependency>
+            <groupId>com.mcoding</groupId>
+            <artifactId>biz-component</artifactId>
+        </dependency>
         <dependency>
             <groupId>com.mcoding</groupId>
             <artifactId>biz-user</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
         </dependency>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>

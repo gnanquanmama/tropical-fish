@@ -1,8 +1,7 @@
-package com.mcoding.modular.biz.activityorder;
+package com.mcoding.applet.order.component;
 
 import com.alibaba.fastjson.JSON;
 import com.mcoding.base.core.rest.ResponseResult;
-import com.mcoding.modular.biz.activityorder.domain.ActivityOrderBizCodeGenerator;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -15,6 +14,8 @@ import javax.annotation.Resource;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+
+;
 
 /**
  * @author wzt on 2020/2/9.

@@ -1,4 +1,4 @@
-package com.mcoding.modular.biz.generatecode.contant;
+package com.mcoding.applet.order.component;
 
 /**
  * @author wzt on 2020/2/9.

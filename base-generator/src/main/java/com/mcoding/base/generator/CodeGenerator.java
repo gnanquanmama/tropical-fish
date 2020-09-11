@@ -23,10 +23,10 @@ import java.util.Scanner;
  */
 public class CodeGenerator {
 
-    static String URL = "jdbc:mysql://192.168.126.81:3307/mc_center?useUnicode=true&characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true";
+    static String URL = "jdbc:mysql://mysql.dev.vv-che.com:3306/vv_dev?useUnicode=true&characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true";
     static String DRIVER = "com.mysql.jdbc.Driver";
-    static String USERNAME = "root";
-    static String PASSWORD = "Root@123";
+    static String USERNAME = "vvdev";
+    static String PASSWORD = "XFcWOBSOqJ7mzFEC";
 
     /**
      * <p>

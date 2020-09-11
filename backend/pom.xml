@@ -10,7 +10,7 @@
     </parent>
 
     <artifactId>backend</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>${parent.version}</version>
     <packaging>jar</packaging>
 
     <name>backend</name>
@@ -26,15 +26,11 @@
         <dependency>
             <groupId>com.mcoding</groupId>
             <artifactId>base-core</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
         </dependency>
-
         <dependency>
             <groupId>com.mcoding</groupId>
             <artifactId>biz-user</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
         </dependency>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>

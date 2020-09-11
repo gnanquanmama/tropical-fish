@@ -1,13 +1,14 @@
-package com.mcoding.modular.biz.generatecode.service.impl;
+package com.mcoding.base.component.generatecode.service.impl;
+
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.mcoding.base.common.exception.CommonException;
+import com.mcoding.base.component.generatecode.dao.BaseGenerateCodeDao;
+import com.mcoding.base.component.generatecode.entity.BaseGenerateCode;
+import com.mcoding.base.component.generatecode.service.BaseGenerateCodeService;
+import com.mcoding.base.component.generatecode.strategy.GenerateStrategy;
 import com.mcoding.base.core.spring.SpringContextHolder;
-import com.mcoding.modular.biz.generatecode.dao.BaseGenerateCodeDao;
-import com.mcoding.modular.biz.generatecode.entity.BaseGenerateCode;
-import com.mcoding.modular.biz.generatecode.service.BaseGenerateCodeService;
-import strategy.GenerateStrategy;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

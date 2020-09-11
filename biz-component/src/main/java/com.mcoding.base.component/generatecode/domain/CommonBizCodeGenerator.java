@@ -1,7 +1,7 @@
-package com.mcoding.modular.biz.generatecode.domain;
+package com.mcoding.base.component.generatecode.domain;
 
 import com.google.common.collect.Range;
-import com.mcoding.modular.biz.generatecode.service.BaseGenerateCodeService;
+import com.mcoding.base.component.generatecode.service.BaseGenerateCodeService;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 

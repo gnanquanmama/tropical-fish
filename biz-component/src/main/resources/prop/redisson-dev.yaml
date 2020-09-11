@@ -1,0 +1,23 @@
+singleServerConfig:
+  address: "redis://47.95.192.230:6379"
+  password: redis#123
+  clientName: fish_api_dev
+  database: 0
+  idleConnectionTimeout: 10000
+  pingTimeout: 1000
+  connectTimeout: 3000
+  timeout: 5000
+  retryAttempts: 3
+  retryInterval: 1500
+  subscriptionsPerConnection: 5
+  subscriptionConnectionMinimumIdleSize: 1
+  subscriptionConnectionPoolSize: 50
+  connectionMinimumIdleSize: 8
+  connectionPoolSize: 16
+  dnsMonitoringInterval: 5000
+
+threads: 0
+nettyThreads: 0
+codec:
+  class: "org.redisson.codec.JsonJacksonCodec"
+transportMode: "NIO"
