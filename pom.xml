@@ -20,7 +20,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
-        <parent.version>0.0.1-SNAPSHOT</parent.version>
     </properties>
 
     <modules>
@@ -38,22 +37,22 @@
             <dependency>
                 <groupId>com.mcoding</groupId>
                 <artifactId>base-common</artifactId>
-                <version>${parent.version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.mcoding</groupId>
                 <artifactId>base-core</artifactId>
-                <version>${parent.version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.mcoding</groupId>
                 <artifactId>biz-component</artifactId>
-                <version>${parent.version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.mcoding</groupId>
                 <artifactId>biz-user</artifactId>
-                <version>${parent.version}</version>
+                <version>${project.version}</version>
             </dependency>
         </dependencies>
 
