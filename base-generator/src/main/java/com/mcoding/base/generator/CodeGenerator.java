@@ -23,10 +23,10 @@ import java.util.Scanner;
  */
 public class CodeGenerator {
 
-    static String URL = "jdbc:mysql://mysql.dev.vv-che.com:3306/vv_dev?useUnicode=true&characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true";
-    static String DRIVER = "com.mysql.jdbc.Driver";
-    static String USERNAME = "vvdev";
-    static String PASSWORD = "XFcWOBSOqJ7mzFEC";
+    static String URL = "jdbc:mysql://47.95.192.230:3306/mcoding?useUnicode=true&characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true";
+    static String DRIVER = "com.mysql.cj.jdbc.Driver";
+    static String USERNAME = "root";
+    static String PASSWORD = "root";
 
     /**
      * <p>
@@ -118,6 +118,7 @@ public class CodeGenerator {
         strategyConfig.setNaming(NamingStrategy.underline_to_camel);
         strategyConfig.setColumnNaming(NamingStrategy.underline_to_camel);
         strategyConfig.setEntityLombokModel(true);
+        strategyConfig.setEntityColumnConstant(false);
         strategyConfig.setRestControllerStyle(true);
         strategyConfig.setTablePrefix("");
         strategyConfig.setInclude(scanner("表名，多个英文逗号分割").split(","));

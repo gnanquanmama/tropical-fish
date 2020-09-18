@@ -118,10 +118,15 @@ public class ${entity} implements Serializable {
 </#if>
 
 <#if entityColumnConstant>
-    <#list table.fields as field>
-    public static final String ${field.name?upper_case} = "${field.name}";
 
+    public static class Column {
+        private Column() {
+        }
+
+    <#list table.fields as field>
+        public static final String ${field.name?upper_case} = "${field.name}";
     </#list>
+    }
 </#if>
 <#if activeRecord>
     @Override
