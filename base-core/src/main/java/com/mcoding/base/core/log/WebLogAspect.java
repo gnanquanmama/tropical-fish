@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -48,6 +49,20 @@ public class WebLogAspect {
         String className = joinPoint.getSignature().getDeclaringTypeName() + "." + joinPoint.getSignature().getName();
         String ip = request.getRemoteAddr();
 
+        String contentType = Optional.ofNullable(request.getContentType()).orElse("");
+        String requestArgs = "{}";
+        if (contentType.contains("multipart")) {
+            // 文件上传 则不解析请求参数
+        } else {
+            requestArgs = getRequestArgs(joinPoint);
+        }
+
+        log.info("EVENT=打印请求日志|URL={}|Class-Method={}|METHOD-DESC={}|IP = {}|REQUEST_ARGS = {}",
+                url, className, methodDesc, ip, requestArgs);
+
+    }
+
+    private String getRequestArgs(JoinPoint joinPoint) {
         String requestArgs = "{}";
         try {
             Object[] args = joinPoint.getArgs();
@@ -66,10 +81,7 @@ public class WebLogAspect {
             e.printStackTrace();
             log.error("http请求参数序列化异常{}", e.getMessage());
         }
-
-        log.info("EVENT=打印请求日志|URL={}|Class-Method={}|METHOD-DESC={}|IP = {}|REQUEST_ARGS = {}",
-                url, className, methodDesc, ip, requestArgs);
-
+        return requestArgs;
     }
 
     @Around("webApiOperation()")

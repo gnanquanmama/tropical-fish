@@ -1,6 +1,9 @@
 package com.mcoding.base.common.util.excel;
 
 import cn.hutool.core.util.ReflectUtil;
+import com.mcoding.base.common.util.excel.converter.ConverterFactory;
+import com.mcoding.base.common.util.excel.converter.ObjToStrConverter;
+import com.mcoding.base.common.util.excel.converter.StrToObjConverter;
 import com.mcoding.base.common.util.reflect.ReflectUtils;
 import jxl.Cell;
 import jxl.Sheet;
@@ -29,26 +32,6 @@ import java.util.List;
  * @author hzy
  */
 public class ExcelUtils {
-
-    /**
-     * 把数据导出到excel表
-     *
-     * @param os                excel表的导出 流
-     * @param titleAndModelKeys 表头与数据的关联,不能为空。例如：{ {"序号", "id"}}， “序号”是导出的excel表的表头，“id”是导入data数据的key
-     * @param data              导出的数据
-     * @param sheetTitle        title名
-     * @param sheetIndex        title的索引 表示在第几行
-     * @return
-     * @throws IOException
-     * @throws WriteException
-     * @throws RowsExceededException
-     * @throws ParseException
-     */
-    public static WritableWorkbook exportDataToExcel(OutputStream os,
-                                                     List<TitleAndModelKey> titleAndModelKeys, List<? extends Object> data, String sheetTitle,
-                                                     String headTitle, int sheetIndex) throws Exception {
-        return exportDataToExcel(os, titleAndModelKeys, data, sheetTitle, headTitle, sheetIndex, null);
-    }
 
     /**
      * 把数据导出到excel表
@@ -89,13 +72,9 @@ public class ExcelUtils {
      * @throws ParseException
      */
     @SuppressWarnings("unchecked")
-    public static WritableWorkbook exportDataToExcel(OutputStream os,
+    private static WritableWorkbook exportDataToExcel(OutputStream os,
                                                      List<TitleAndModelKey> titleAndModelKeys, List<? extends Object> data, String sheetTitle,
                                                      String headTitle, int sheetIndex, WritableWorkbook writeablebook) throws Exception {
-        if (CollectionUtils.isEmpty(titleAndModelKeys)) {
-            throw new NullPointerException("export setting 'titleAndModelKeys' can not be null");
-        }
-
         // 准备设置excel工作表的标题
         if (writeablebook == null) {
             writeablebook = Workbook.createWorkbook(os);
@@ -120,7 +99,6 @@ public class ExcelUtils {
         }
 
         // 设置字体
-
         for (int i = 0; i < titleAndModelKeys.size(); i++) {
             WritableCellFormat titleFormat = titleAndModelKeys.get(i).getTitleFormat();
             if (titleFormat == null) {
@@ -140,7 +118,6 @@ public class ExcelUtils {
         // 内容字体设置
         for (int i = 0; data != null && i < data.size(); i++) {
             // 将data的类型放到metaObject对象里，根据字段key来获取值value
-
             for (int j = 0; j < titleAndModelKeys.size(); j++) {
 
                 // 获取列表属性
@@ -152,7 +129,7 @@ public class ExcelUtils {
                             titleAndModelKey.getModelKey()));
                 }
 
-                Object value = getFieldValue(data.get(i), key);
+                Object value = ReflectUtil.getFieldValue(data.get(i), key);
                 String content = null;
                 if (value == null) {
                     content = titleAndModelKey.getDefaultValue();
@@ -212,10 +189,8 @@ public class ExcelUtils {
 
         // 2、查出excel的数据，并导入到map里面
         int rowCount = allRows.size();
-
         for (int i = 0; sheet != null && i < rowCount; i++) {
             List<Cell> row = allRows.get(i);
-
             dataList.add(converteRowToObject(sheet, headRow, row, titleAndModelKeys, clazz));
         }
 
@@ -257,7 +232,6 @@ public class ExcelUtils {
         return object;
     }
 
-    @SuppressWarnings({"rawtypes", "unchecked"})
     private static Object convertStrToObject(Object object, Sheet sheet, List<Cell> row, TitleAndModelKey titleAndModelKey) throws Exception {
         Integer index = titleAndModelKey.getColumIndex();
         String key = titleAndModelKey.getModelKey();
@@ -326,15 +300,6 @@ public class ExcelUtils {
         return allRows;
     }
 
-    @SuppressWarnings("unused")
-    private static Cell[] getFromSheet(Sheet sheet, int startRowIndex, int length) {
-        Cell[] cells = new Cell[length];
-        for (int i = 0; i < length; i++) {
-            cells[i] = sheet.getCell(i, startRowIndex);
-        }
-        return cells;
-    }
-
     private static void checkExcel(List<TitleAndModelKey> titleAndModelKeys, Cell[] headRow) {
         for (int j = 0; j < titleAndModelKeys.size(); j++) {
 
@@ -358,7 +323,7 @@ public class ExcelUtils {
         }
     }
 
-    public static int getTitleIndexInRow(Cell[] headRow, String title) {
+    private static int getTitleIndexInRow(Cell[] headRow, String title) {
         if (StringUtils.isBlank(title)) {
             throw new NullPointerException("title can not be null");
         }
@@ -366,7 +331,6 @@ public class ExcelUtils {
         for (int i = 0; i < headRow.length; i++) {
             String content = headRow[i].getContents();
             if (StringUtils.equals(content.trim(), title.trim())) {
-                index = i;
                 return i;
             }
         }
@@ -374,59 +338,20 @@ public class ExcelUtils {
         return index;
     }
 
-    public static TitleAndModelKey createTitleAndModelKey(String title, String modelKey) {
-        return new TitleAndModelKey(title, modelKey);
-    }
-
-    public static TitleAndModelKey createTitleAndModelKey(String title, String modelKey, boolean isRequired) {
-        TitleAndModelKey t = new TitleAndModelKey(title, modelKey);
-        t.setRequired(isRequired);
-        return t;
-    }
-
-    public static TitleAndModelKey createTitleAndModelKey(int columIndex, String modelKey) {
-        return new TitleAndModelKey(columIndex, modelKey);
-    }
-
-    @SuppressWarnings("rawtypes")
-    public static TitleAndModelKey createTitleAndModelKey(String title, String modelKey,
-                                                          StrToObjConverter toObjConverter) {
-        return new TitleAndModelKey(title, modelKey, toObjConverter);
-    }
-
-    @SuppressWarnings("rawtypes")
-    public static TitleAndModelKey createTitleAndModelKey(String title, String modelKey,
-                                                          ObjToStrConverter toStrConverter) {
-        return new TitleAndModelKey(title, modelKey, toStrConverter);
-    }
-
-    public static Object getFieldValue(Object obj, String key) throws IllegalAccessException {
-        Field[] fields = obj.getClass().getDeclaredFields();
-
-        for (Field field : fields) {
-            field.setAccessible(true);
-            String fieldName = field.getName();
-            if (fieldName.equals(key)) {
-                return field.get(obj);
-            }
-        }
-        return null;
-    }
-
-    public static List<TitleAndModelKey> createTitleAndModelKeyList(Class<?> clazz) throws IllegalAccessException, InstantiationException {
+    private static List<TitleAndModelKey> createTitleAndModelKeyList(Class<?> clazz) throws IllegalAccessException, InstantiationException {
         List<TitleAndModelKey> list = new ArrayList<>();
 
         Field[] fields = ReflectUtil.getFields(clazz);
 
         for (Field field : fields) {
-            Excel excel = field.getAnnotation(Excel.class);
-            if (excel == null) {
+            ExcelProperty excelProperty = field.getAnnotation(ExcelProperty.class);
+            if (excelProperty == null) {
                 continue;
             }
 
-            String title = excel.title();
+            String title = excelProperty.title();
             String modelKey = field.getName();
-            Class<? extends ObjToStrConverter> converter = excel.objToStrConverter();
+            Class<? extends ObjToStrConverter> converter = excelProperty.objToStrConverter();
             if (converter == ObjToStrConverter.class) {
                 list.add(new TitleAndModelKey(title, modelKey));
             } else {

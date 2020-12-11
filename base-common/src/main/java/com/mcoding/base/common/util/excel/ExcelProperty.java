@@ -1,5 +1,7 @@
 package com.mcoding.base.common.util.excel;
 
+import com.mcoding.base.common.util.excel.converter.ObjToStrConverter;
+
 import java.lang.annotation.*;
 
 /**
@@ -9,7 +11,7 @@ import java.lang.annotation.*;
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.FIELD})
-public @interface Excel {
+public @interface ExcelProperty {
 
     String title();
     Class<? extends ObjToStrConverter> objToStrConverter() default ObjToStrConverter.class;
