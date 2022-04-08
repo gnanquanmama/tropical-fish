@@ -3,6 +3,7 @@ package com.mcoding.modular.biz.user.controller;
 
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.lang.UUID;
+import com.alibaba.excel.EasyExcel;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -167,11 +168,12 @@ public class BizUserController {
 
         OutputStream outputStream = httpServletResponse.getOutputStream();
 
-        WritableWorkbook writableWorkbook = ExcelUtils.exportDataToExcel(
-                outputStream, BaseUser.class, activityOrderList, "用户", null, 0);
-
-        writableWorkbook.write();
-        writableWorkbook.close();
+        EasyExcel.write(outputStream, BaseUser.class).sheet("用户").doWrite(activityOrderList);
+//        WritableWorkbook writableWorkbook = ExcelUtils.exportDataToExcel(
+//                outputStream, BaseUser.class, activityOrderList, "用户", null, 0);
+//
+//        writableWorkbook.write();
+//        writableWorkbook.close();
 
         return null;
     }
