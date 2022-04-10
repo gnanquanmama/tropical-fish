@@ -1,11 +1,11 @@
 package com.mcoding.base.user.entity;
 
+import com.alibaba.excel.annotation.ExcelProperty;
 import com.baomidou.mybatisplus.annotation.*;
 
 import java.util.Date;
 import java.io.Serializable;
 
-import com.mcoding.base.common.util.excel.ExcelProperty;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -22,7 +22,6 @@ import lombok.experimental.Accessors;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@Accessors(chain = true)
 @TableName("base_user")
 @ApiModel(value="BaseUser", description="基础用户")
 public class BaseUser implements Serializable {
@@ -33,7 +32,6 @@ public class BaseUser implements Serializable {
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
-    @ExcelProperty(title = "openId")
     @ApiModelProperty(value = "openId")
     @TableField("openId")
     private String openId;
@@ -42,16 +40,17 @@ public class BaseUser implements Serializable {
     @TableField("unionId")
     private String unionId;
 
-    @ExcelProperty(title = "手机号码")
+    @ExcelProperty(index = 1)
     @ApiModelProperty(value = "手机号码")
     @TableField("mobile_number")
     private String mobileNumber;
 
-    @ExcelProperty(title = "昵称")
+    @ExcelProperty(index = 2)
     @ApiModelProperty(value = "昵称")
     @TableField("nick_name")
     private String nickName;
 
+    @ExcelProperty(index = 3)
     @ApiModelProperty(value = "用户名称")
     @TableField("user_name")
     private String userName;

@@ -4,30 +4,33 @@ package com.mcoding.modular.biz.user.controller;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.lang.UUID;
 import com.alibaba.excel.EasyExcel;
+import com.alibaba.excel.ExcelWriter;
+import com.alibaba.excel.write.metadata.WriteSheet;
+import com.alibaba.excel.write.metadata.fill.FillConfig;
+import com.alibaba.excel.write.metadata.fill.FillWrapper;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.mcoding.base.common.exception.SysException;
 import com.mcoding.base.common.util.Assert;
-import com.mcoding.base.common.util.excel.ExcelUtils;
 import com.mcoding.base.core.orm.DslParser;
-import com.mcoding.base.core.orm.OprEnum;
 import com.mcoding.base.core.rest.ResponseResult;
 import com.mcoding.base.user.entity.BaseUser;
 import com.mcoding.base.user.service.BaseUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import jxl.write.WritableWorkbook;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RedissonClient;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Collections;
 import java.util.Date;
@@ -71,7 +74,7 @@ public class BizUserController {
         return ResponseResult.success();
     }
 
-    @ApiOperation(value = "查询活动详情")
+    @ApiOperation(value = "查询用户详情")
     @GetMapping("/service/user/detail")
     public ResponseResult<BaseUser> detail(@RequestParam Integer id) {
         return ResponseResult.success(baseUserService.getById(id));
@@ -96,17 +99,20 @@ public class BizUserController {
 
         httpServletResponse.reset();
         httpServletResponse.setContentType("application/vnd.ms-excel;charset=utf-8");
-        httpServletResponse.setHeader("Content-Disposition", String.format("attachment;filename=%s.xls",
+        httpServletResponse.setHeader("Content-Disposition", String.format("attachment;filename=%s.xlsx",
                 new String("用户导入模板".getBytes("UTF-8"), "ISO8859-1")));
         httpServletResponse.addHeader("Cache-Control", "no-cache");
 
+        InputStream templateIs = this.getFileFromClassPathResource("template/UserTemplate.xlsx");
         OutputStream outputStream = httpServletResponse.getOutputStream();
 
-        WritableWorkbook writableWorkbook = ExcelUtils.exportDataToExcel(
-                outputStream, BaseUser.class, Collections.emptyList(), "用户", null, 0);
+        ExcelWriter excelWriter = EasyExcel.write(outputStream).withTemplate(templateIs).build();
+        WriteSheet writeSheet = EasyExcel.writerSheet().build();
 
-        writableWorkbook.write();
-        writableWorkbook.close();
+        FillConfig fillConfig = FillConfig.builder().build();
+        excelWriter.fill(new FillWrapper("user", Collections.emptyList()), fillConfig, writeSheet);
+        excelWriter.finish();
+        outputStream.close();
 
         return null;
     }
@@ -115,11 +121,10 @@ public class BizUserController {
     @PostMapping(value = "/service/user/importByExcel")
     @ResponseBody
     public ResponseResult<String> importByExcel(@RequestParam("file") MultipartFile file) throws Exception {
-
-        List<BaseUser> userList = ExcelUtils.importExcelDataToList(
-                file.getInputStream(), 0, 1, 0, BaseUser.class);
-
-        log.info("file name is {} , import data is {}", file.getOriginalFilename(), JSON.toJSONString(userList));
+        List<BaseUser> userList = EasyExcel.read(file.getInputStream(), BaseUser.class, new UserDataListener())
+                .sheet()
+                .doReadSync();
+        log.info("userList = {}", JSON.toJSONString(userList));
 
         return ResponseResult.success();
     }
@@ -131,14 +136,11 @@ public class BizUserController {
     @PostMapping(value = "/service/user/exchangeExportExcelId")
     @ResponseBody
     public ResponseResult<String> exchangeExportExcelId(@RequestBody JSONObject queryObject) {
-
         String exportExcelId = UUID.randomUUID().toString(true);
         redissonClient.getBucket("user::export::excel::" + exportExcelId)
                 .set(queryObject, 30, TimeUnit.SECONDS);
-
         return ResponseResult.success(exportExcelId);
     }
-
 
     @ApiOperation("EXCEL导出")
     @GetMapping(value = "/service/user/exportByExcel/{exportExcelId}")
@@ -158,25 +160,29 @@ public class BizUserController {
                 new String(fileName.getBytes("UTF-8"), "ISO8859-1")));
         httpServletResponse.addHeader("Cache-Control", "no-cache");
 
-
         DslParser<BaseUser> dslParser = new DslParser<>(jsonObject);
         dslParser.parseToWrapper(BaseUser.class);
 
         QueryWrapper<BaseUser> queryWrapper = dslParser.getQueryWrapper();
         queryWrapper.lambda().orderByDesc(BaseUser::getCreateTime);
-        List<BaseUser> activityOrderList = this.baseUserService.list(queryWrapper);
+        List<BaseUser> userList = this.baseUserService.list(queryWrapper);
 
+        InputStream templateIs = this.getFileFromClassPathResource("template/UserTemplate.xlsx");
         OutputStream outputStream = httpServletResponse.getOutputStream();
+        ExcelWriter excelWriter = EasyExcel.write(outputStream).withTemplate(templateIs).build();
+        WriteSheet writeSheet = EasyExcel.writerSheet().build();
 
-        EasyExcel.write(outputStream, BaseUser.class).sheet("用户").doWrite(activityOrderList);
-//        WritableWorkbook writableWorkbook = ExcelUtils.exportDataToExcel(
-//                outputStream, BaseUser.class, activityOrderList, "用户", null, 0);
-//
-//        writableWorkbook.write();
-//        writableWorkbook.close();
+        FillConfig fillConfig = FillConfig.builder().build();
+        excelWriter.fill(new FillWrapper("user", userList), fillConfig, writeSheet);
+        excelWriter.finish();
+        outputStream.close();
 
         return null;
     }
 
+    private InputStream getFileFromClassPathResource(String filePath) throws IOException {
+        ClassPathResource classPathResource = new ClassPathResource("template/UserTemplate.xlsx");
+        return classPathResource.getInputStream();
+    }
 
 }

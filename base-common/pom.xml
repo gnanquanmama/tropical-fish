@@ -49,7 +49,7 @@
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>easyexcel</artifactId>
-            <version>2.1.7</version>
+            <version>3.0.5</version>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
