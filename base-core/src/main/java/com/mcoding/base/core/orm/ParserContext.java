@@ -14,7 +14,6 @@ import java.util.Map;
 @Data
 class ParserContext {
 
-
     /**
      * 存储 where 条件表
      */
@@ -24,6 +23,16 @@ class ParserContext {
      * 存储 orderBy 条件
      */
     private Map<String, String> orderByMap = Maps.newLinkedHashMap();
+
+    /**
+     * 关键字字段
+     */
+    private List<MetaModelField> keywordFieldList;
+
+    /**
+     * 搜索关键词
+     */
+    private String searchKeyword;
 
     private int current = 1;
 

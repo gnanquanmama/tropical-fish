@@ -46,8 +46,10 @@ public class MetaModelUtils {
                 continue;
             }
 
+            Keyword keyWord = field.getAnnotation(Keyword.class);
+
             String tableFieldName = tableField != null ? tableField.value() : tableId.value();
-            result.put(field.getName(), new MetaModelField(tableFieldName, field.getType().getTypeName()));
+            result.put(field.getName(), new MetaModelField(tableFieldName, field.getType().getTypeName(), keyWord != null));
         }
 
         classMetaMapCache.put(clazz.getName(), result);

@@ -1,6 +1,5 @@
 package com.mcoding.base.core.orm;
 
-
 import cn.hutool.core.collection.CollectionUtil;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -18,6 +17,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * 自定义查询语法 解析器
@@ -59,6 +59,7 @@ public class DslParser<T> {
         parseHandlerList.add(new ParseWhereCondHandler(queryObject, modelFieldToTableField));
         parseHandlerList.add(new ParseOrderByCondHandler(queryObject, modelFieldToTableField));
         parseHandlerList.add(new ParsePageHandler(queryObject));
+        parseHandlerList.add(new ParseSearchCondHandler(queryObject, modelFieldToTableField));
 
         ParserContext parserContext = new ParserContext();
         for (ParseHandler parseHandler : parseHandlerList) {
@@ -72,6 +73,9 @@ public class DslParser<T> {
 
         Map<String, String> orderByMap = parserContext.getOrderByMap();
         this.executeOrderByOpr(orderByMap);
+
+        List<MetaModelField> keywordFieldList = parserContext.getKeywordFieldList();
+        this.executeKeyWordSearch(keywordFieldList, parserContext.getSearchKeyword());
 
         this.current = parserContext.getCurrent();
         this.size = parserContext.getSize();
@@ -110,6 +114,18 @@ public class DslParser<T> {
         orderByMap.forEach(
                 (orderByCmd, tableFileName) ->
                         Reflect.on(this.queryWrapper).call(orderByCmd, tableFileName));
+    }
+
+    private void executeKeyWordSearch(List<MetaModelField> keywordFieldList, String keyword) {
+        if (CollectionUtil.isEmpty(keywordFieldList)) {
+            return;
+        }
+
+        String fieldNameJoinStr = keywordFieldList.stream()
+                .map(MetaModelField::getTableFieldName)
+                .collect(Collectors.joining(","));
+
+        this.queryWrapper.like("concat( " + fieldNameJoinStr + ") ", keyword);
     }
 
     public IPage<T> generatePage() {

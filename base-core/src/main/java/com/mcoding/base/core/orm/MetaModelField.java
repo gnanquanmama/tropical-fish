@@ -22,4 +22,9 @@ public class MetaModelField {
      * 模型字段类型
      */
     private String modelFieldType;
+
+    /**
+     * 是否关键字查询
+     */
+    private boolean isKeyWorldSearch;
 }
