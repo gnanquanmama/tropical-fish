@@ -12,7 +12,10 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.google.common.collect.Maps;
+import com.itextpdf.kernel.geom.PageSize;
 import com.mcoding.base.common.util.Assert;
+import com.mcoding.base.common.util.pdf.FtlToPdfUtil;
 import com.mcoding.base.core.orm.DslParser;
 import com.mcoding.base.core.rest.ResponseResult;
 import com.mcoding.base.user.entity.BaseUser;
@@ -32,9 +35,11 @@ import javax.validation.Valid;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.URLEncoder;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -160,19 +165,13 @@ public class BizUserController {
                 new String(fileName.getBytes("UTF-8"), "ISO8859-1")));
         httpServletResponse.addHeader("Cache-Control", "no-cache");
 
-        DslParser<BaseUser> dslParser = new DslParser<>(jsonObject);
-        dslParser.parseToWrapper(BaseUser.class);
-
-        QueryWrapper<BaseUser> queryWrapper = dslParser.getQueryWrapper();
-        queryWrapper.lambda().orderByDesc(BaseUser::getCreateTime);
-        List<BaseUser> userList = this.baseUserService.list(queryWrapper);
-
         InputStream templateIs = this.getFileFromClassPathResource("template/UserTemplate.xlsx");
         OutputStream outputStream = httpServletResponse.getOutputStream();
         ExcelWriter excelWriter = EasyExcel.write(outputStream).withTemplate(templateIs).build();
         WriteSheet writeSheet = EasyExcel.writerSheet().build();
 
         FillConfig fillConfig = FillConfig.builder().build();
+        List<BaseUser> userList = this.getUserList(jsonObject);
         excelWriter.fill(new FillWrapper("user", userList), fillConfig, writeSheet);
         excelWriter.finish();
         outputStream.close();
@@ -180,8 +179,43 @@ public class BizUserController {
         return null;
     }
 
+    @ApiOperation("PDF导出")
+    @GetMapping(value = "/service/user/exportByPdf/{exportExcelId}")
+    @ResponseBody
+    public void exportPdf(@ApiParam("导出excel标识") @PathVariable("exportExcelId") String exportPdfId,
+            HttpServletResponse httpServletResponse) throws Exception {
+
+        JSONObject jsonObject = (JSONObject) this.redissonClient.getBucket("user::export::excel::" + exportPdfId).get();
+        Assert.isNotNull(jsonObject, "导出excel标识ID已过期或者不不存在");
+
+        httpServletResponse.setContentType("application/x-msdownload");
+        String fileName = URLEncoder.encode("用户明细.pdf", "UTF-8");
+        httpServletResponse.setHeader("Content-Disposition", "attachment;filename=" + fileName);
+
+        List<BaseUser> userList = this.getUserList(jsonObject);
+        Map<String, Object> dataSource = Maps.newHashMap();
+        dataSource.put("userList", userList);
+        // 去读模板文件 -> 替换占位符 -> 生成 HTML 字节数组
+        byte[] htmlByteArray = FtlToPdfUtil.generateHtmlByteArray("/template", "UserTemplate.ftl", dataSource);
+
+        OutputStream outputStream = httpServletResponse.getOutputStream();
+        // HTML 转换为 PDF
+        FtlToPdfUtil.convertToPdf(htmlByteArray, outputStream, PageSize.A2);
+
+        outputStream.flush();
+        outputStream.close();
+    }
+
+    private List<BaseUser> getUserList(JSONObject jsonObject) {
+        DslParser<BaseUser> dslParser = new DslParser<>(jsonObject);
+        dslParser.parseToWrapper(BaseUser.class);
+        QueryWrapper<BaseUser> queryWrapper = dslParser.getQueryWrapper();
+        queryWrapper.lambda().orderByDesc(BaseUser::getCreateTime);
+        return this.baseUserService.list(queryWrapper);
+    }
+
     private InputStream getFileFromClassPathResource(String filePath) throws IOException {
-        ClassPathResource classPathResource = new ClassPathResource("template/UserTemplate.xlsx");
+        ClassPathResource classPathResource = new ClassPathResource(filePath);
         return classPathResource.getInputStream();
     }
 
