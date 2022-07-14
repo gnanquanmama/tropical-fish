@@ -66,7 +66,7 @@ public class ParseWhereCondHandler implements ParseHandler {
                     String key = entry.getKey();
                     Object value = entry.getValue();
                     // 过滤包含分隔符 _$_ 的查询key
-                    boolean isValidKey = key.contains("\\.");
+                    boolean isValidKey = key.contains(".");
                     // 过滤查询值为非空的key
                     boolean isValidValue = (value != null && StringUtils.isNotBlank(value.toString()));
                     if (value instanceof List) {
