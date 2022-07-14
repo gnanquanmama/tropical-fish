@@ -26,35 +26,38 @@ Pragmatic 风格的 Java EE 后端开发脚手架。 基于 SpringBoot，技术�
 
 > 查询条件语法
 > ```json
->   {
->       "current":  "页码",
->       "size":  "页数",
->       "modelField.operation":"搜索条件",
->       "orderByDesc":"modelField"
->    }
+> {
+>    "current":  "页码",
+>    "size":  "页数",
+>    "modelField.operation":"搜索条件",
+>    "orderByDesc":"modelField",
+>    "searchKeyword": "关键词"
+> }
 > ```
 
 > 示例
 
 > ```json
->   {
->        "current":1,
->        "size":10,
->        "userName.like":"github",
->        "orderStatus.in":[1,3,4],
->        "createTime.gt":1581392098000,
->        "orderByDesc": "createTime"
->   }
+> {
+>     "current":1,
+>     "size":10,
+>     "userName.like":"github",
+>     "orderStatus.in":[1,3,4],
+>     "createTime.gt":1581392098000,
+>     "orderByDesc": "createTime",
+>     "searchKeyword": "githu"
+> }
 > ```
 
 > 查询条件关键字
 
-|   KEYWORD   |   DESC   |
-|:-----------:| :------: |
-| modelField  | 模型字段 |
-|      .      |  分隔符  |
-| orderByDesc |   递减   |
-| orderByAsc  |   递增   |
+|    KEYWORD    |                   DESC                    |
+| :-----------: | :---------------------------------------: |
+|  modelField   |                 模型字段                  |
+|       .       |                  分隔符                   |
+|  orderByDesc  |                   递减                    |
+|  orderByAsc   |                   递增                    |
+| searchKeyword | 关键词查询字段，搜索字段需要加上 @Keyword |
 
 >operation 关键字列表
 
