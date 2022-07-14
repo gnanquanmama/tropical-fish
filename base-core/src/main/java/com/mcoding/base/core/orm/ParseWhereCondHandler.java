@@ -29,7 +29,7 @@ public class ParseWhereCondHandler implements ParseHandler {
 
         // between 做特殊处理
         Set<String> betweenKeySet = queryObject.keySet().stream()
-                .filter(key -> key.contains("_$_between"))
+                .filter(key -> key.contains(".between"))
                 .collect(Collectors.toSet());
 
         for (String key : betweenKeySet) {
@@ -43,7 +43,7 @@ public class ParseWhereCondHandler implements ParseHandler {
                 throw new SysException(String.format("%s 的值必须为两个", key));
             }
 
-            String[] fieldNameAndOperation = key.split("_\\$_");
+            String[] fieldNameAndOperation = key.split("\\.");
 
             String operation = fieldNameAndOperation[1];
             String modelFieldName = fieldNameAndOperation[0];
@@ -66,7 +66,7 @@ public class ParseWhereCondHandler implements ParseHandler {
                     String key = entry.getKey();
                     Object value = entry.getValue();
                     // 过滤包含分隔符 _$_ 的查询key
-                    boolean isValidKey = key.contains("_$_");
+                    boolean isValidKey = key.contains("\\.");
                     // 过滤查询值为非空的key
                     boolean isValidValue = (value != null && StringUtils.isNotBlank(value.toString()));
                     if (value instanceof List) {
@@ -80,7 +80,7 @@ public class ParseWhereCondHandler implements ParseHandler {
 
         for (Map.Entry<String, Object> entry : validQueryObj) {
             String key = entry.getKey();
-            String[] fieldNameAndOperation = key.split("_\\$_");
+            String[] fieldNameAndOperation = key.split("\\.");
 
             String modelFieldName = fieldNameAndOperation[0];
             String operation = fieldNameAndOperation[1];

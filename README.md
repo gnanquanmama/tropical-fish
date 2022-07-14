@@ -29,7 +29,7 @@ Pragmatic 风格的 Java EE 后端开发脚手架。 基于 SpringBoot，技术�
 >   {
 >       "current":  "页码",
 >       "size":  "页数",
->       "modelField_$_operation":"搜索条件",
+>       "modelField.operation":"搜索条件",
 >       "orderByDesc":"modelField"
 >    }
 > ```
@@ -40,9 +40,9 @@ Pragmatic 风格的 Java EE 后端开发脚手架。 基于 SpringBoot，技术�
 >   {
 >        "current":1,
 >        "size":10,
->        "userName_$_like":"github",
->        "orderStatus_$_in":[1,3,4],
->        "createTime_$_gt":1581392098000,
+>        "userName.like":"github",
+>        "orderStatus.in":[1,3,4],
+>        "createTime.gt":1581392098000,
 >        "orderByDesc": "createTime"
 >   }
 > ```
@@ -50,11 +50,11 @@ Pragmatic 风格的 Java EE 后端开发脚手架。 基于 SpringBoot，技术�
 > 查询条件关键字
 
 |   KEYWORD   |   DESC   |
-| :---------: | :------: |
+|:-----------:| :------: |
 | modelField  | 模型字段 |
-|    \_$_     |  分隔符  |
+|      .      |  分隔符  |
 | orderByDesc |   递减   |
-| orderByAsc |   递增   |
+| orderByAsc  |   递增   |
 
 >operation 关键字列表
 
