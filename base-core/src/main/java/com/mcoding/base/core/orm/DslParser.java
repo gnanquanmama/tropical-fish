@@ -99,8 +99,9 @@ public class DslParser<T> {
                 Date endTime = new Date((Long) valueList.get(1));
 
                 Reflect.on(this.queryWrapper).call(operation, tableFileName, startTime, endTime);
+            } else if ("isNull".equalsIgnoreCase(operation) || "isNotNull".equalsIgnoreCase(operation)) {
+                Reflect.on(this.queryWrapper).call(operation, tableFileName);
             } else {
-
                 Reflect.on(this.queryWrapper).call(operation, tableFileName, value);
             }
         });

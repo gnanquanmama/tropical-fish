@@ -44,6 +44,7 @@ Pragmatic 风格的 Java EE 后端开发脚手架。 基于 SpringBoot，技术�
 >     "userName.like":"github",
 >     "orderStatus.in":[1,3,4],
 >     "createTime.gt":1581392098000,
+>     "phone.isNotNull": "",
 >     "orderByDesc": "createTime",
 >     "searchKeyword": "githu"
 > }
@@ -74,6 +75,8 @@ Pragmatic 风格的 Java EE 后端开发脚手架。 基于 SpringBoot，技术�
 | likeRight | 以 value 开头匹配 |    'value%'     |
 |    in     |        in         |       in        |
 |  between  |      闭区间       | between s and e |
+|  isNull   |      is null      |      为空       |
+| isNotNull |    is not null    |      非空       |
 
 
 

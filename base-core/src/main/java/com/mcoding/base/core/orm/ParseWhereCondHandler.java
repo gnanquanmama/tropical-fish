@@ -65,7 +65,13 @@ public class ParseWhereCondHandler implements ParseHandler {
                 .filter(entry -> {
                     String key = entry.getKey();
                     Object value = entry.getValue();
-                    // 过滤包含分隔符 _$_ 的查询key
+
+                    // isNull 或者 isNotNull 查询字段值为空，不需要做校验过滤
+                    if (key.contains(".isNull") || key.contains(".isNotNull")) {
+                        return true;
+                    }
+
+                    // 过滤包含分隔符 . 的查询key
                     boolean isValidKey = key.contains(".");
                     // 过滤查询值为非空的key
                     boolean isValidValue = (value != null && StringUtils.isNotBlank(value.toString()));
