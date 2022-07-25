@@ -23,7 +23,7 @@ public class XxlJobConfig {
         log.info(">>>>>>>>>>> xxl-job config init.");
         XxlJobSpringExecutor xxlJobSpringExecutor = new XxlJobSpringExecutor();
         xxlJobSpringExecutor.setAdminAddresses(xxlJobPropertiesConfig.getAdmin_addresses());
-        xxlJobSpringExecutor.setAppName(xxlJobPropertiesConfig.getAppname());
+        xxlJobSpringExecutor.setAppname(xxlJobPropertiesConfig.getAppname());
 
         return xxlJobSpringExecutor;
     }
