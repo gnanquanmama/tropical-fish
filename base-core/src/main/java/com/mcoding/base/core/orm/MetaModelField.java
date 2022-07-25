@@ -1,6 +1,5 @@
 package com.mcoding.base.core.orm;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 
 /**
@@ -10,7 +9,6 @@ import lombok.Data;
  * @version 1.0
  */
 @Data
-@AllArgsConstructor
 public class MetaModelField {
 
     /**
@@ -27,4 +25,9 @@ public class MetaModelField {
      * 是否关键字查询
      */
     private boolean isKeyWorldSearch;
+
+    /**
+     * 字段是否like 查询
+     */
+    private boolean isLikeSearch;
 }

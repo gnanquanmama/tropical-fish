@@ -3,14 +3,10 @@ package com.mcoding.base.core.orm;
 import java.lang.annotation.*;
 
 /**
- * 搜索关键字注解
- *
- * Created on 2022/4/10.
- *
- * @author wzt
+ * 通用查询 Like 标识
  */
 @Documented
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Keyword {
+public @interface Like {
 }

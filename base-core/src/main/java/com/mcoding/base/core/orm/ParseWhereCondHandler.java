@@ -2,6 +2,7 @@ package com.mcoding.base.core.orm;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.alibaba.fastjson.JSONObject;
+import com.mcoding.base.common.exception.CommonException;
 import com.mcoding.base.common.exception.SysException;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
@@ -26,6 +27,25 @@ public class ParseWhereCondHandler implements ParseHandler {
 
     @Override
     public void apply(ParserContext parserContext) {
+
+        // 过滤出非高级查询的字段集合
+        Set<String> defaultQueryFieldSet = queryObject.keySet().stream()
+                .filter(key -> !key.contains(".") && !QueryKeyWord.queryKeyWord.contains(key))
+                .collect(Collectors.toSet());
+
+        // 默认查询是 =；如果字段有加 @Like 注解，则用 like 查询
+        for (String defaultQueryField : defaultQueryFieldSet) {
+            MetaModelField metaModelField = modelFieldToTableField.get(defaultQueryField);
+            this.validField(metaModelField, defaultQueryField);
+
+            Object searchValue = queryObject.get(defaultQueryField);
+            queryObject.remove(defaultQueryField);
+            if (metaModelField.isLikeSearch()) {
+                queryObject.put(defaultQueryField + ".like", searchValue);
+            } else {
+                queryObject.put(defaultQueryField + ".eq", searchValue);
+            }
+        }
 
         // between 做特殊处理
         Set<String> betweenKeySet = queryObject.keySet().stream()
@@ -109,6 +129,17 @@ public class ParseWhereCondHandler implements ParseHandler {
             }
 
             parserContext.addQueryCondition(operation, tableFieldName, value);
+        }
+    }
+
+    /**
+     * 校验查询字段是否存在
+     * @param metaModelField
+     * @param queryFieldName
+     */
+    private void validField(MetaModelField metaModelField, String queryFieldName) {
+        if (metaModelField == null) {
+            throw new SysException(String.format("查询字段[%s]不存在", queryFieldName));
         }
     }
 }
