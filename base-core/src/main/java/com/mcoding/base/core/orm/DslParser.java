@@ -174,7 +174,7 @@ public class DslParser<T> {
      */
     public <R> R getPropValue(SFunction<T, ?> column, OprEnum oprEnum, Class<R> clazz) {
 
-        SerializedLambda lambda = SerializedLambda.resolve(column);
+        SerializedLambda lambda = SerializedLambda.extract(column);
         String methodName = lambda.getImplMethodName();
 
         String prefix = null;
