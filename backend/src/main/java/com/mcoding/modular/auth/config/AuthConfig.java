@@ -18,6 +18,7 @@ public class AuthConfig implements WebMvcConfigurer {
         registry.addInterceptor(new AuthInterceptor())
                 //排除拦截
                 .excludePathPatterns("/service/auth/login")
+                .excludePathPatterns("/noLogin/**")
                 .excludePathPatterns("/druid/**")
                 .excludePathPatterns("/javasimon/**")
                 .excludePathPatterns("/swagger-resources/**", "/webjars/**", "/v2/**", "/swagger-ui.html/**")

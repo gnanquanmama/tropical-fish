@@ -12,6 +12,11 @@ import lombok.Data;
 public class MetaModelField {
 
     /**
+     * 类字段名称
+     */
+    private String classFieldName;
+
+    /**
      * 表字段名称
      */
     private String tableFieldName;
@@ -30,4 +35,14 @@ public class MetaModelField {
      * 字段是否like 查询
      */
     private boolean isLikeSearch;
+
+    /**
+     * 字段是否做升序排序
+     */
+    private boolean isOrderByAsc;
+
+    /**
+     * 字段是否做降序排序
+     */
+    private boolean isOrderByDesc;
 }

@@ -13,10 +13,7 @@ import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.joor.Reflect;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -37,7 +34,25 @@ public class DslParser<T> {
 
     private QueryWrapper<T> queryWrapper = new QueryWrapper<>();
 
+    public DslParser() {
+        this.queryObject = new JSONObject();
+    }
+
     public DslParser(JSONObject queryObject) {
+        this.queryObject = queryObject;
+    }
+
+    public DslParser(Map<String, String[]> params) {
+        JSONObject queryObject = new JSONObject();
+        params.forEach((key, value) -> {
+            if (value != null) {
+                if (value.length == 1) {
+                    queryObject.put(key, value[0]);
+                } else {
+                    queryObject.put(key, Arrays.asList(value));
+                }
+            }
+        });
         this.queryObject = queryObject;
     }
 
@@ -124,6 +139,7 @@ public class DslParser<T> {
 
         String fieldNameJoinStr = keywordFieldList.stream()
                 .map(MetaModelField::getTableFieldName)
+                .map(tableFieldName -> String.format("IFNULL(%s, '') ", tableFieldName))
                 .collect(Collectors.joining(","));
 
         this.queryWrapper.like("concat( " + fieldNameJoinStr + ") ", keyword);

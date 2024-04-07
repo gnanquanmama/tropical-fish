@@ -30,7 +30,7 @@ public class MetaModelUtils {
     public static <T> Map<String, MetaModelField> generateMetaModelField(Class<T> clazz) {
 
         // 命中缓存，则直接返回
-        Map<String, MetaModelField> classMeta =  classMetaMapCache.get(clazz.getName());
+        Map<String, MetaModelField> classMeta = classMetaMapCache.get(clazz.getName());
         if (CollectionUtil.isNotEmpty(classMeta)) {
             return classMeta;
         }
@@ -48,13 +48,19 @@ public class MetaModelUtils {
 
             Keyword keyWord = field.getAnnotation(Keyword.class);
             Like like = field.getAnnotation(Like.class);
+            OrderByAsc orderByAsc = field.getAnnotation(OrderByAsc.class);
+            OrderByDesc orderByDesc = field.getAnnotation(OrderByDesc.class);
+
             String tableFieldName = tableField != null ? tableField.value() : tableId.value();
 
             MetaModelField metaModelField = new MetaModelField();
+            metaModelField.setClassFieldName(field.getName());
             metaModelField.setTableFieldName(tableFieldName);
             metaModelField.setModelFieldType(field.getType().getTypeName());
             metaModelField.setKeyWorldSearch(keyWord != null);
             metaModelField.setLikeSearch(like != null);
+            metaModelField.setOrderByAsc(orderByAsc != null);
+            metaModelField.setOrderByDesc(orderByDesc != null);
 
             result.put(field.getName(), metaModelField);
         }
